@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/script.js"></script>
+    <title>Slam</title>
+</head>
+
+<html>
+<body>
+    <img class="hidden-marguerite" src="res/marguerite.png" id="marguerite" />
+
+    <div class="grille" id="grille"></div>
+    <div class="question-section" id="questions">
+        <div style="display: flex; text-align: center">
+            <div id="question" style="margin: auto; padding: .3vw">Cliquer ici pour lancer la partie</div>
+        </div>
+        <button onclick="nextQuestion()">Question suivante</button>
+    </div>
+    <button onclick="showAnswer()" class="confirm-answer" id="confirmAnswer">Afficher réponse</button>
+
+    <div class="question-section" id="definitions" style="visibility: hidden">
+        <div style="display: flex; text-align: center">
+            <div id="definition" style="margin: auto; padding: .3vw"></div>
+        </div>
+        <button onclick="confirmWord()">Confirmer réponse</button>
+    </div>
+    <img id="play-button" src="res/play.png" class="play" style="visibility: hidden"/>
+    <div id="image-displayer" class="image-displayer" style="visibility: hidden">
+        <img id="image-display"/>
+    </div>
+    <audio id="music-player"></audio>
+    <button onclick="wrongAnswer()" class="confirm-answer" id="wrongAnswer" style="visibility: hidden">Mauvaise réponse</button>
+
+    <div class="candidates">
+        <div class="candidate" id="candidate1" onclick="selectCandidate(0)">
+            <div id="name1"></div>
+            <div id="score1"></div>
+        </div>
+        <div class="candidate" id="candidate2" onclick="selectCandidate(1)">
+            <div id="name2"></div>
+            <div id="score2"></div>
+        </div>
+        <div class="candidate" id="candidate3" onclick="selectCandidate(2)">
+            <div id="name3"></div>
+            <div id="score3"></div>
+        </div>
+        <div class="slam" onclick="toggleSlam()">Slam</div>
+
+        <audio src="res/buzz.mp3" id="buzz"></audio>
+    </div>
+</body>
+</html>
+
