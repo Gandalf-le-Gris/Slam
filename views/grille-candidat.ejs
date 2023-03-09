@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/play-style.css">
+    <title>Slam</title>
+</head>
+
+<html>
+<body>
+    <div id="grid-data" style="display: none"><%= grid %></div>
+
+    <img class="hidden-marguerite" src="/res/marguerite.png" id="marguerite" />
+
+    <div class="grille" id="grille"></div>
+    <div class="question-section" id="questions">
+        <div style="display: flex; text-align: center">
+            <div id="question" style="margin: auto; padding: .3vw">En attente de l'hôte</div>
+        </div>
+    </div>
+
+    <div class="question-section" id="definitions" style="visibility: hidden">
+        <div style="display: flex; text-align: center">
+            <div id="definition" style="margin: auto; padding: .3vw"></div>
+        </div>
+    </div>
+    <div id="image-displayer" class="image-displayer" style="visibility: hidden">
+        <img id="image-display"/>
+    </div>
+    <audio id="music-player"></audio>
+
+    <div class="candidates">
+        <div class="candidate" id="candidate1">
+            <div id="name1"></div>
+            <div id="score1"></div>
+        </div>
+        <div class="candidate" id="candidate2">
+            <div id="name2"></div>
+            <div id="score2"></div>
+        </div>
+        <div class="candidate" id="candidate3">
+            <div id="name3"></div>
+            <div id="score3"></div>
+        </div>
+
+        <audio src="/res/buzz.mp3" id="buzz"></audio>
+    </div>
+
+    <div id="room" class="room"><%= room %></div>
+
+    <div class="buzzers" id="buzzers">
+        <div class="buzzer" onclick="buzz()">BUZZ</div>
+        <div class="buzzer-state unlocked">Ouvert</div>
+    </div>
+
+    <div class="filter" id="filter">
+        <form onsubmit="enterGame(event)">
+            <input type="text" id="nick" value="" placeholder="Entrez votre pseudo">
+            <button type="submit">Valider</button>
+            <p style="color: white; font-size: 2vh; transform: translateY(-3vh); text-align: center;">⚠ Laisser le champ vide pour entrer en mode spectateur.</p>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/player-script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/home-style.css">
+    <title>Slam</title>
+</head>
+
+<html>
+<body>
+    <div class="logo">
+        <img src="res/slam-logo.png" />
+    </div>
+
+    <div class="menu-options">
+        <form class="stack-option" action="join-room" method="post">
+            <input type="hidden" name="action" id="join-room" value="join-room" />
+            <input type="text" name="code" id="code" placeholder="Code de la salle" minlength="6" maxlength="6" pattern="[0-9]+" required />
+            <button type="submit">Rejoindre</button>
+        </form>
+        <form action="create-room" method="post">
+            <input type="hidden" name="action" id="create-room" value="create-room"/>
+            <button type="submit">Créer une salle</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
+</body>
+</html>
+

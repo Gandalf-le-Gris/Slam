@@ -1,0 +1,178 @@
+{
+  "mots": [
+    {
+      "word": "PENCHANT",
+      "x": 0,
+      "y": 0,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "DECRYPTE",
+      "x": 2,
+      "y": 0,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "JUDO",
+      "x": 4,
+      "y": 2,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "OMERTA",
+      "x": 5,
+      "y": 2,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "GOYAVE",
+      "x": 6,
+      "y": 0,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "EQUESTRE",
+      "x": 8,
+      "y": 0,
+      "vert": true,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "PEDAGOGUE",
+      "x": 0,
+      "y": 0,
+      "vert": false,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "JOYAU",
+      "x": 4,
+      "y": 2,
+      "vert": false,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "CURCUMA",
+      "x": 0,
+      "y": 3,
+      "vert": false,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "DEVIS",
+      "x": 4,
+      "y": 4,
+      "vert": false,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "AMPHORE",
+      "x": 0,
+      "y": 5,
+      "vert": false,
+      "def": "?",
+      "found": false
+    },
+    {
+      "word": "TRENTAINE",
+      "x": 0,
+      "y": 7,
+      "vert": false,
+      "def": "?",
+      "found": false
+    }
+  ],
+  "questions": [
+    {
+      "text": "Q1",
+      "letter": "Y"
+    },
+    {
+      "text": "Q2",
+      "letter": "H"
+    },
+    {
+      "text": "Q3",
+      "letter": "Q"
+    },
+    {
+      "text": "Q4",
+      "letter": "J"
+    },
+    {
+      "text": "Q5",
+      "letter": "M"
+    },
+    {
+      "text": "Q6",
+      "letter": "R"
+    },
+    {
+      "text": "Q7",
+      "letter": "P"
+    },
+    {
+      "text": "Q8",
+      "letter": "D"
+    },
+    {
+      "text": "Q9",
+      "letter": "U"
+    },
+    {
+      "text": "Q10",
+      "letter": "V"
+    },
+    {
+      "text": "Q11",
+      "letter": "O"
+    },
+    {
+      "text": "Q12",
+      "letter": "E"
+    },
+    {
+      "text": "Q13",
+      "letter": "G"
+    },
+    {
+      "text": "Q14",
+      "letter": "A"
+    },
+    {
+      "text": "Q15",
+      "letter": "S"
+    },
+    {
+      "text": "Q16",
+      "letter": "I"
+    },
+    {
+      "text": "Q17",
+      "letter": "C"
+    },
+    {
+      "text": "Q18",
+      "letter": "T"
+    },
+    {
+      "text": "Q19",
+      "letter": "N"
+    }
+  ]
+}

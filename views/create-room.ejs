@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/create-room-style.css">
+    <script src="/js/create-room-script.js"></script>
+    <title>Slam</title>
+</head>
+
+<html>
+<body>
+    <div class="room-code">
+        Code de la salle :
+        </br>
+        <%= room %>
+    </div>
+
+    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+        <p><i>Déposez un fichier JSON de grille ici.</i></p>
+    </div>
+
+    <form name="gridForm" action="post-grid" method="post" style="display: none">
+        <input type="hidden" name="gridInput" value="" id="grid-input">
+        <input type="hidden" name="roomCode" value=<%= room %> id="room-input">
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
+</body>
+</html>

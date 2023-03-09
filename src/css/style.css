@@ -8,7 +8,7 @@ html, body {
     -webkit-user-select: none;
     -ms-user-select: none;
     font-family: Arial;
-    background-color: Alice Blue;
+    background: radial-gradient(circle, rgba(75,116,255,1) 0%, rgba(0,58,255,1) 100%);
 }
 
 .grille {
@@ -20,8 +20,8 @@ html, body {
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgb(96 5 249);
-    color: rgb(96 5 249);
+    background: rgb(76 5 255);
+    color: rgb(76 5 255);
     border-radius: 2vw;
 }
 
@@ -75,7 +75,7 @@ html, body {
     min-height: 5vw;
     grid-template-columns: 37vw 10vw;
     grid-gap: 3vw;
-    background: rgb(96, 5, 249);
+    background: rgb(76, 5, 255);
     border-radius: 1vw;
     position: absolute;
     bottom: 15%;
@@ -186,6 +186,84 @@ img.play:hover {
         max-height: 30vw;
     }
 
+.room {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgb(76, 5, 255);
+    border-bottom-left-radius: 1vh;
+    padding: 1.5vh;
+    color: white;
+    font-size: 2.5vh;
+}
+
+.buzzers {
+    position: absolute;
+    top: 15vh;
+    right: 5vw;
+    display: grid;
+    grid-template-rows: 8vh 10vh repeat(5, 5vh);
+    row-gap: 2vh;
+}
+
+    .buzzers > .buzzer-state {
+        border-radius: 1vw;
+        background-color: lightgray;
+        font-size: 1.5vw;
+        font-weight: bold;
+        font-family: inherit;
+        text-align: center;
+        line-height: 8vh;
+    }
+
+        .buzzers > .buzzer-state.locked {
+            background-color: #ffaaaa;
+        }
+
+        .buzzers > .buzzer-state.unlocked {
+            background-color: #aaffaa;
+        }
+
+    .buzzers > .options {
+        display: grid;
+        grid-template-columns: 8vw 8vw;
+        column-gap: 2vw;
+        height: 8vh;
+    }
+
+.buzz-name {
+    border-radius: 1vw;
+    background-color: lightgray;
+    font-size: 1.2vw;
+    font-family: inherit;
+    text-align: center;
+    line-height: 5vh;
+}
+
+.end-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3vh 5vw 3vh 5vw;
+    background: linear-gradient(90deg, #0000 0%, #000 15%, #000 85%, #0000 100%);
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 3vh;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transition: 1s;
+}
+
+    .end-display > #winner {
+        font-size: 5vh;
+    }
+
+    .end-display > #loser {
+        font-size: 4vh;
+    }
 
 
 
@@ -246,6 +324,19 @@ img.play:hover {
     -o-animation: peek 2s ease forwards;
     animation: peek 2s ease forwards;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @-webkit-keyframes myOrbit {
     0% {
