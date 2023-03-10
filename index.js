@@ -209,6 +209,4 @@ app.post('/play/leave', (req, res) => {
     res.redirect('/');
 })
 
-//app.get('*', (req, res) => { console.log('404'); res.send('Erreur 404') });
-
 app.listen(port, () => console.log('App listening on port ' + port + '.'));
