@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/editor-style.css">
+    <title>Slam</title>
+</head>
+
+<html>
+<body>
+    <div class="container">
+        <div class="layout">
+            <div>
+                <div class="grille" id="grille"></div>
+
+                <div id="definitions-wrapper">
+                    <div id="definitions"></div>
+                </div>
+
+                <div style="height: 30.9vw"></div>
+            </div>
+
+            <div id="questions">
+                <div>
+                    <input type="text" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="A" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">
+                    <input type="text" placeholder="Question" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">
+                    <select onchange="updateQuestions()">
+                        <option value="" selected></option>
+                        <option value="Audio">Audio</option>
+                        <option value="Image">Image</option>
+                    </select>
+                    <input class="attachment" type="text" placeholder="URL"  onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">
+                    <div onclick="upQuestion(this)">
+                        <img src="/res/up.png" alt="">
+                    </div>
+                    <div onclick="downQuestion(this)">
+                        <img src="/res/down.png" alt="">
+                    </div>
+                    <div onclick="deleteQuestion(this)">
+                        <img src="/res/delete.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="addQuestion()">Ajouter</button>
+
+            <button onclick="saveJSON()" style="margin-top: 10vh; width: 20vw">Sauvegarder la grille</button>
+        </div>
+
+        <a id="downloadAnchorElem" style="display:none"></a>
+    </div>
+
+    <script src="/js/editor.js"></script>
+</body>
+</html>

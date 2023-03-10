@@ -79,3 +79,15 @@ function checkFileAPI() {
       return;
   }
 }
+
+
+
+
+
+function createGrid() {
+  let form = document.createElement("form");
+  form.method = "post";
+  form.action = "create-grid";
+  document.body.appendChild(form);
+  form.submit();
+}

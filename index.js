@@ -207,6 +207,18 @@ app.get('/play/:room', (req, res) => {
 
 app.post('/play/leave', (req, res) => {
     res.redirect('/');
-})
+});
+
+app.post('/editor/save-json', (req, res) => {
+    res.redirect('/');
+});
+
+app.post('/create/create-grid', (req, res) => {
+    res.redirect('/editor');
+});
+
+app.get('/editor', (req, res) => {
+    res.render('editor.ejs');
+});
 
 //app.listen(port, () => console.log('App listening on port ' + port + '.'));

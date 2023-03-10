@@ -19,6 +19,8 @@
 
     <input id="file-select" type="file" onchange="sendFile()" style="display: none;">
 
+    <button onclick="createGrid()">Créer une grille</button>
+
     <form name="gridForm" action="post-grid" method="post" style="display: none">
         <input type="hidden" name="gridInput" value="" id="grid-input">
         <input type="hidden" name="roomCode" value=<%= room %> id="room-input">
