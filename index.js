@@ -20,9 +20,9 @@ app.set('view engine', 'ejs')
 let rooms = [];
 
 
-http.listen(port , () => {
+/*http.listen(port , () => {
     console.log("HTTP listening on port " + port + ".");
-});
+});*/
 
 io.on('connection', (socket) => {
     let p;
