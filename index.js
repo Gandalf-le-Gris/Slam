@@ -209,7 +209,7 @@ app.post('/play/leave', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/editor/save-json', (req, res) => {
+app.post('/save-json', (req, res) => {
     res.redirect('/');
 });
 
