@@ -28,12 +28,41 @@ function dragOverHandler(ev) {
     ev.preventDefault();
 }
 
+function sendFile() {
+  let reader = checkFileAPI();
+  if (reader) {
+    reader.onload = (evt) => {
+      try {
+        let grid = JSON.parse(evt.target.result);
+        if (!grid.questions || !grid.mots) {
+          alert("Impossible de lire le contenu de cette grille.");
+        } else {
+          document.getElementById("grid-input").value = evt.target.result;
+          document.gridForm.submit();
+        }
+      } catch (e) {
+        alert("Impossible de lire le contenu de cette grille.");
+      }
+    };
+    reader.readAsBinaryString(document.getElementById("file-select").files[0]);
+  }
+}
+
 function sendFileContent(file) {
   let reader = checkFileAPI();
   if (reader) {
     reader.onload = (evt) => {
-      document.getElementById("grid-input").value = evt.target.result;
-      document.gridForm.submit();
+      try {
+        let grid = JSON.parse(evt.target.result);
+        if (!grid.questions || !grid.mots) {
+          alert("Impossible de lire le contenu de cette grille.");
+        } else {
+          document.getElementById("grid-input").value = evt.target.result;
+          document.gridForm.submit();
+        }
+      } catch (e) {
+        alert("Impossible de lire le contenu de cette grille.");
+      }
     };
     reader.readAsBinaryString(file);
   }

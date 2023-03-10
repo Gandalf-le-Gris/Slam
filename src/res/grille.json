@@ -104,7 +104,8 @@
     },
     {
       "text": "Q2",
-      "letter": "H"
+      "letter": "H",
+      "image": "https://raw.githubusercontent.com/Gandalf-le-Gris/JSPokemon/main/resources/homescreen.jpg"
     },
     {
       "text": "Q3",
@@ -112,7 +113,8 @@
     },
     {
       "text": "Q4",
-      "letter": "J"
+      "letter": "J",
+      "audio": "https://raw.githubusercontent.com/Gandalf-le-Gris/JSPokemon/main/resources/sounds/sfx/healer.mp3"
     },
     {
       "text": "Q5",

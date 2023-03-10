@@ -235,21 +235,22 @@ function nextQuestion() {
     document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text : "Plus de questions !";
     if (question !== undefined) {
         var play = document.getElementById("play-button");
+        play.style.visibility = "hidden";
+        play.onclick = () => { };
+        document.getElementById("music-player").pause();
+        document.getElementById("image-displayer").style.visibility = "hidden";
         if (question.audio !== undefined) {
-            document.getElementById("music-player").src = "ressources/" + question.audio;
+            document.getElementById("music-player").src = question.audio;
             play.style.visibility = "visible";
-            play.src = "res/play.png";
+            play.src = "/res/play.png";
             play.onclick = () => toggleAudio();
         } else if (question.image !== undefined) {
             play.style.visibility = "visible";
-            play.src = "res/hide.png";
+            play.src = "/res/hide.png";
             play.onclick = () => toggleImage();
             document.getElementById("question").innerHTML = "";
-            document.getElementById("image-display").src = "ressources/" + question.image;
+            document.getElementById("image-display").src = question.image;
             document.getElementById("image-displayer").style.visibility = "visible";
-        } else {
-            play.style.visibility = "hidden";
-            play.onclick = () => { };
         }
     }
 
@@ -259,26 +260,30 @@ function nextQuestion() {
 function toggleAudio() {
     var player = document.getElementById("music-player");
     var play = document.getElementById("play-button");
-    if (play.src.includes("res/play.png")) {
-        play.src = "res/pause.png";
+    if (play.src.includes("play.png")) {
+        play.src = "/res/pause.png";
         player.play();
+        socket.emit("play-audio");
     } else {
-        play.src = "res/play.png";
+        play.src = "/res/play.png";
         player.pause();
+        socket.emit("pause-audio");
     }
 }
 
 function toggleImage() {
     var box = document.getElementById("image-displayer");
     var play = document.getElementById("play-button");
-    if (play.src.includes("res/show.png")) {
-        play.src = "res/hide.png";
+    if (play.src.includes("show.png")) {
+        play.src = "/res/hide.png";
         box.style.visibility = "visible";
         document.getElementById("question").innerHTML = "";
+        socket.emit("image-show");
     } else {
-        play.src = "res/show.png";
+        play.src = "/res/show.png";
         box.style.visibility = "hidden";
         document.getElementById("question").innerHTML = grilleQuestions[currentQuestion].text;
+        socket.emit("image-hide");
     }
 }
 

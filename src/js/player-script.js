@@ -124,6 +124,7 @@ function resetBuzzers() {
         buzzer.classList.remove("locked");
         buzzer.innerHTML = "BUZZ";
     }
+    unlockBuzzer();
 }
 
 function lockBuzzer() {
@@ -165,7 +166,15 @@ function unlockBuzzer() {
 
 socket.on("question-change", (n) => {
     currentQuestion = n;
-    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+    document.getElementById("music-player").pause();
+    document.getElementById("image-displayer").style.visibility = "hidden";
+    if (grilleQuestions[currentQuestion].image == undefined) {
+        document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+    } else {
+        document.getElementById("question").innerHTML = "";
+        document.getElementById("image-display").src = grilleQuestions[currentQuestion].image;
+        document.getElementById("image-displayer").style.visibility = "visible";
+    }
 });
 
 socket.on("dom-grid-change", (dom) => {
@@ -217,6 +226,28 @@ socket.on("game-end", (r) => {
     setTimeout(() => {
         winDiv.style.removeProperty("opacity");
     }, 8000);
+});
+
+socket.on("play-audio", () => {
+    let audio = document.getElementById("music-player");
+    if (audio.src != grilleQuestions[currentQuestion].audio)
+        audio.src = grilleQuestions[currentQuestion].audio;
+    audio.play();
+});
+
+socket.on("pause-audio", () => {
+    document.getElementById("music-player").pause();
+});
+
+socket.on("image-show", () => {
+    document.getElementById("image-displayer").style.visibility = "visible";
+    document.getElementById("image-display").src = grilleQuestions[currentQuestion].image;
+    document.getElementById("question").innerHTML = "";
+});
+
+socket.on("image-hide", () => {
+    document.getElementById("image-displayer").style.visibility = "hidden";
+    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
 });
 
 

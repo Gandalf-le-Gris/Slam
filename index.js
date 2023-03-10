@@ -2,7 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
         r.currentQuestion = -1;
         r.locked = false;
         r.slam = -1;
+        r.scores = ["", "", ""];
         socket.join(p.roomId);
     });
 
@@ -56,11 +57,11 @@ io.on('connection', (socket) => {
             socket.disconnect();
         } else {
             if (r.players.findIndex(e => e.username == player.username) != -1) {
-                player.points = r.players[r.players.findIndex(e => e.username == player.username)].points;
                 r.players.splice(r.players.findIndex(e => e.username == player.username), 1);
                 r.players.push(player);
             } else {
                 r.players.push(player);
+                r.scores[r.scores.findIndex(e => e == "")] = "0";
                 io.to(p.roomId).emit("new-player", p);
             }
             socket.join(p.roomId);
@@ -135,6 +136,26 @@ io.on('connection', (socket) => {
     socket.on("game-end", () => {
         if (p.host)
             io.to(p.roomId).emit("game-end", r);
+    });
+
+    socket.on("play-audio", () => {
+        if (p.host)
+            io.to(p.roomId).emit("play-audio");
+    });
+
+    socket.on("pause-audio", () => {
+        if (p.host)
+            io.to(p.roomId).emit("pause-audio");
+    });
+
+    socket.on("image-show", () => {
+        if (p.host)
+            io.to(p.roomId).emit("image-show");
+    });
+
+    socket.on("image-hide", () => {
+        if (p.host)
+            io.to(p.roomId).emit("image-hide");
     });
 });
 

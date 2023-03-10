@@ -13,9 +13,11 @@
         <%= room %>
     </div>
 
-    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-        <p><i>Déposez un fichier JSON de grille ici.</i></p>
+    <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" onclick="document.getElementById('file-select').click()">
+        <p><i>Sélectionnez un fichier JSON de grille.</i></p>
     </div>
+
+    <input id="file-select" type="file" onchange="sendFile()" style="display: none;">
 
     <form name="gridForm" action="post-grid" method="post" style="display: none">
         <input type="hidden" name="gridInput" value="" id="grid-input">
