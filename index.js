@@ -157,6 +157,10 @@ io.on('connection', (socket) => {
         if (p.host)
             io.to(p.roomId).emit("image-hide");
     });
+
+    socket.on("request-grid", () => {
+        io.to(socket.id).emit("get-grid", { grid: r.grid });
+    });
 });
 
 app.post('/create-room', (req, res) => {

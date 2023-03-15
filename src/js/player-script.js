@@ -16,7 +16,12 @@ function enterGame(event) {
     if (player.username == "")
         document.getElementsByClassName("buzzer")[0].style.visibility = "hidden";
     socket.emit("add-player", player);
+    socket.emit("request-grid");
 }
+
+socket.on("get-grid", (g) => {
+    grid = g;
+});
 
 socket.on("new-player", (player)=>{
     if (candidats.length < 3 && player.username != "") {

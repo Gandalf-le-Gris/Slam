@@ -11,6 +11,7 @@ var player = {
 
 window.onload = () => {
     socket.emit("start-host", player);
+    socket.emit("request-grid");
 }
 
 socket.on("new-player", (player)=>{
@@ -25,6 +26,10 @@ socket.on("new-player", (player)=>{
 
 
 
+
+socket.on("get-grid", (g) => {
+    grid = g;
+});
 
 socket.on("unlock-buzz",()=>{
     unlockBuzzer();
