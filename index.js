@@ -187,9 +187,10 @@ app.post('/create/post-grid', function requestHandler(req, res) {
 
 app.get('/host/:room', (req, res) => {
     const room = req.params.room;
-    if (rooms.findIndex(e => e.id == parseInt(room)) != -1)
+    if (rooms.findIndex(e => e.id == parseInt(room)) != -1) {
+        console.log(rooms[rooms.findIndex(e => e.id == parseInt(room))].grid)
         res.render('grille.ejs', { room: room, grid: rooms[rooms.findIndex(e => e.id == parseInt(room))].grid });
-    else
+    }else
         res.redirect('/');
 });
 
