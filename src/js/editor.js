@@ -277,31 +277,31 @@ function saveJSON() {
 }
 
 function unicodify(str) {
-    str = str.replace('é', '\u00e9');
-    str = str.replace('è', '\u00e8');
-    str = str.replace('ê', '\u00ea');
-    str = str.replace('ë', '\u00eb');
-    str = str.replace('É', '\u00c9');
-    str = str.replace('È', '\u00c8');
-    str = str.replace('Ê', '\u00ca');
-    str = str.replace('Ë', '\u00cb');
-    str = str.replace('à', '\u00e0');
-    str = str.replace('â', '\u00e2');
-    str = str.replace('ä', '\u00e4');
-    str = str.replace('Â', '\u00ca');
-    str = str.replace('À', '\u00c0');
-    str = str.replace('Ä', '\u00c4');
-    str = str.replace('î', '\u00ee');
-    str = str.replace('ï', '\u00ef');
-    str = str.replace('Î', '\u00ce');
-    str = str.replace('Ï', '\u00cf');
-    str = str.replace('ô', '\u00f4');
-    str = str.replace('Ô', '\u00d4');
-    str = str.replace('ù', '\u00f9');
-    str = str.replace('û', '\u00fb');
-    str = str.replace('Ù', '\u00d9');
-    str = str.replace('Û', '\u00db');
-    str = str.replace('ç', '\u00e7');
-    str = str.replace('Ç', '\u00c7');
+    str = str.replace('é', '\\u00e9');
+    str = str.replace('è', '\\u00e8');
+    str = str.replace('ê', '\\u00ea');
+    str = str.replace('ë', '\\u00eb');
+    str = str.replace('É', '\\u00c9');
+    str = str.replace('È', '\\u00c8');
+    str = str.replace('Ê', '\\u00ca');
+    str = str.replace('Ë', '\\u00cb');
+    str = str.replace('à', '\\u00e0');
+    str = str.replace('â', '\\u00e2');
+    str = str.replace('ä', '\\u00e4');
+    str = str.replace('Â', '\\u00ca');
+    str = str.replace('À', '\\u00c0');
+    str = str.replace('Ä', '\\u00c4');
+    str = str.replace('î', '\\u00ee');
+    str = str.replace('ï', '\\u00ef');
+    str = str.replace('Î', '\\u00ce');
+    str = str.replace('Ï', '\\u00cf');
+    str = str.replace('ô', '\\u00f4');
+    str = str.replace('Ô', '\\u00d4');
+    str = str.replace('ù', '\\u00f9');
+    str = str.replace('û', '\\u00fb');
+    str = str.replace('Ù', '\\u00d9');
+    str = str.replace('Û', '\\u00db');
+    str = str.replace('ç', '\\u00e7');
+    str = str.replace('Ç', '\\u00c7');
     return str;
 }
