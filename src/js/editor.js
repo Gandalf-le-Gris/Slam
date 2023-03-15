@@ -36,6 +36,8 @@ function fillGridDiv() {
             domGrille[i+1].push(cell);
         }
     }
+    domGrille[domGrille.length - 1][domGrille[0].length - 1].parent.id = "points";
+    domGrille[domGrille.length - 1][domGrille[0].length - 1].parent.setAttribute("data-number", "0");
 }
 
 function writeCell(cell) {
@@ -104,6 +106,11 @@ function updateWords() {
             }
         }
     }
+
+    let points = 0;
+    for (let w of words)
+        points += w.length;
+    document.getElementById("points").setAttribute("data-number", points.toString());
 
     updateDefinitions();
 }
@@ -192,7 +199,7 @@ function compileWords() {
 
 function addQuestion() {
     let q = document.createElement("div");
-    q.innerHTML = '<input type="text" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="A" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <input type="text" placeholder="Question" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <select onchange="updateQuestions()">        <option value="" selected></option>        <option value="Audio">Audio</option>        <option value="Image">Image</option>    </select>    <input class="attachment" type="text" placeholder="URL"  onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <div onclick="upQuestion(this)">        <img src="/res/up.png" alt="">    </div>    <div onclick="downQuestion(this)">        <img src="/res/down.png" alt="">    </div>    <div onclick="deleteQuestion(this)">        <img src="/res/delete.png" alt="">    </div>';
+    q.innerHTML = '<input type="text" class="question-letter-input" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="A" onchange="updateQuestions(this)" onkeydown="updateQuestions(this)" onpaste="updateQuestions(this)" oninput="updateQuestions(this)">    <input type="text" placeholder="Question" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <select onchange="updateQuestions()">        <option value="" selected></option>        <option value="Audio">Audio</option>        <option value="Image">Image</option>    </select>    <input class="attachment" type="text" placeholder="URL"  onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <div onclick="upQuestion(this)">        <img src="/res/up.png" alt="">    </div>    <div onclick="downQuestion(this)">        <img src="/res/down.png" alt="">    </div>    <div onclick="deleteQuestion(this)">        <img src="/res/delete.png" alt="">    </div>';
     document.getElementById("questions").appendChild(q);
 }
 
@@ -216,7 +223,25 @@ function downQuestion(e) {
         questions.insertBefore(questions.children[i + 1], q);
 }
 
-function updateQuestions() {
+function updateQuestions(input) {
+    if (input && input.value != "") {
+        if (input.value.match("[a-zA-Z]"))
+            input.value = input.value.toUpperCase();
+        else
+            input.value = "";
+    }
+
+    let inputs = document.getElementsByClassName("question-letter-input");
+    let letters = [];
+    for (let i of inputs) {
+        if (!letters.contains(i.value)) {
+            letters.push(i.value);
+            i.style.removeProperty("color");
+        } else {
+            i.style.color = "red";
+        }
+    }
+
     quests = [];
     let questions = document.getElementById("questions");
     for (let q of questions.children) {
@@ -233,7 +258,7 @@ function updateQuestions() {
 }
 
 function compileJSON() {
-    return {mots: compileWords(), questions: quests};
+    return {mots: unicodify(compileWords()), questions: unicodify(quests)};
 }
 
 function saveJSON() {
@@ -248,4 +273,34 @@ function saveJSON() {
     form.action = "save-json";
     document.body.appendChild(form);
     form.submit();
+}
+
+function unicodify(str) {
+    str = str.replace('é', '\u00e9');
+    str = str.replace('è', '\u00e8');
+    str = str.replace('ê', '\u00ea');
+    str = str.replace('ë', '\u00eb');
+    str = str.replace('É', '\u00c9');
+    str = str.replace('È', '\u00c8');
+    str = str.replace('Ê', '\u00ca');
+    str = str.replace('Ë', '\u00cb');
+    str = str.replace('à', '\u00e0');
+    str = str.replace('â', '\u00e2');
+    str = str.replace('ä', '\u00e4');
+    str = str.replace('Â', '\u00ca');
+    str = str.replace('À', '\u00c0');
+    str = str.replace('Ä', '\u00c4');
+    str = str.replace('î', '\u00ee');
+    str = str.replace('ï', '\u00ef');
+    str = str.replace('Î', '\u00ce');
+    str = str.replace('Ï', '\u00cf');
+    str = str.replace('ô', '\u00f4');
+    str = str.replace('Ô', '\u00d4');
+    str = str.replace('ù', '\u00f9');
+    str = str.replace('û', '\u00fb');
+    str = str.replace('Ù', '\u00d9');
+    str = str.replace('Û', '\u00db');
+    str = str.replace('ç', '\u00e7');
+    str = str.replace('Ç', '\u00c7');
+    return str;
 }
