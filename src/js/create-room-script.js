@@ -57,10 +57,6 @@ function sendFileContent(file) {
         if (!grid.questions || !grid.mots) {
           alert("Impossible de lire le contenu de cette grille.");
         } else {
-          for (let w of grid.mots)
-            w.def = w.def.replace("\\\\", "\\");
-          for (let q of grid.questions)
-            q.text = q.text.replace("\\\\", "\\");
           document.getElementById("grid-input").value = evt.target.result;
           document.gridForm.submit();
         }
