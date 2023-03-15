@@ -54,6 +54,7 @@ function sendFileContent(file) {
     reader.onload = (evt) => {
       try {
         let grid = JSON.parse(evt.target.result);
+        alert("aaa")
         if (!grid.questions || !grid.mots) {
           alert("Impossible de lire le contenu de cette grille.");
         } else {
