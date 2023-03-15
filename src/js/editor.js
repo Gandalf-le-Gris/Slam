@@ -36,8 +36,8 @@ function fillGridDiv() {
             domGrille[i+1].push(cell);
         }
     }
-    domGrille[domGrille.length - 1][domGrille[0].length - 1].parent.id = "points";
-    domGrille[domGrille.length - 1][domGrille[0].length - 1].parent.setAttribute("data-number", "0");
+    domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.id = "points";
+    domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.setAttribute("data-number", "0");
 }
 
 function writeCell(cell) {
@@ -235,7 +235,7 @@ function updateQuestions(input) {
     let inputs = document.getElementsByClassName("question-letter-input");
     let letters = [];
     for (let i of inputs) {
-        if (!letters.contains(i.value)) {
+        if (!letters.includes(i.value)) {
             letters.push(i.value);
             i.style.removeProperty("color");
         } else {
