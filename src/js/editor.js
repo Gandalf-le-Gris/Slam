@@ -201,6 +201,7 @@ function addQuestion() {
     let q = document.createElement("div");
     q.innerHTML = '<input type="text" class="question-letter-input" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="A" onchange="updateQuestions(this)" onkeydown="updateQuestions(this)" onpaste="updateQuestions(this)" oninput="updateQuestions(this)">    <input type="text" placeholder="Question" onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <select onchange="updateQuestions()">        <option value="" selected></option>        <option value="Audio">Audio</option>        <option value="Image">Image</option>    </select>    <input class="attachment" type="text" placeholder="URL"  onchange="updateQuestions()" onkeydown="updateQuestions()" onpaste="updateQuestions()" oninput="updateQuestions()">    <div onclick="upQuestion(this)">        <img src="/res/up.png" alt="">    </div>    <div onclick="downQuestion(this)">        <img src="/res/down.png" alt="">    </div>    <div onclick="deleteQuestion(this)">        <img src="/res/delete.png" alt="">    </div>';
     document.getElementById("questions").appendChild(q);
+    updateQuestions();
 }
 
 function deleteQuestion(e) {
