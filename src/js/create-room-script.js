@@ -44,7 +44,7 @@ function sendFile() {
         alert("Impossible de lire le contenu de cette grille.");
       }
     };
-    reader.readAsBinaryString(document.getElementById("file-select").files[0]);
+    reader.readAsText(document.getElementById("file-select").files[0], 'UTF-8');
   }
 }
 
@@ -64,7 +64,7 @@ function sendFileContent(file) {
         alert("Impossible de lire le contenu de cette grille.");
       }
     };
-    reader.readAsBinaryString(file);
+    reader.readAsText(file, 'UTF-8');
   }
 }
 
