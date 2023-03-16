@@ -235,6 +235,7 @@ function nextQuestion() {
         cell.classList.add("number-cell");
     }
     document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+    document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
 
     var question = grilleQuestions[currentQuestion];
     document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text : "Plus de questions !";
@@ -288,6 +289,7 @@ function toggleImage() {
         play.src = "/res/show.png";
         box.style.visibility = "hidden";
         document.getElementById("question").innerHTML = grilleQuestions[currentQuestion].text;
+        document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
         socket.emit("image-hide");
     }
 }

@@ -48,6 +48,7 @@ socket.on("player-init", (room, p)=>{
         if (room.currentQuestion > -1) {
             currentQuestion = room.currentQuestion;
             document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+            document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
         }
         if (room.slam > -1) {
             document.body.classList.add("slam-bg");
@@ -175,6 +176,7 @@ socket.on("question-change", (n) => {
     document.getElementById("image-displayer").style.visibility = "hidden";
     if (grilleQuestions[currentQuestion].image == undefined) {
         document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+        document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
     } else {
         document.getElementById("question").innerHTML = "";
         document.getElementById("image-display").src = grilleQuestions[currentQuestion].image;
@@ -253,6 +255,7 @@ socket.on("image-show", () => {
 socket.on("image-hide", () => {
     document.getElementById("image-displayer").style.visibility = "hidden";
     document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+    document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
 });
 
 
