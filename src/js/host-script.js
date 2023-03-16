@@ -234,11 +234,10 @@ function nextQuestion() {
         cell = domGrille[word.y + !word.vert][word.x + word.vert];
         cell.classList.add("number-cell");
     }
-    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
-    document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
 
     var question = grilleQuestions[currentQuestion];
     document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text : "Plus de questions !";
+    document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
     if (question !== undefined) {
         var play = document.getElementById("play-button");
         play.style.visibility = "hidden";
