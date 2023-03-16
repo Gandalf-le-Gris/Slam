@@ -164,7 +164,7 @@ function compileWords() {
                         word += domGrille[i + n + 1][j].value;
                         n++;
                     }
-                    w.push({word: word, x: j-1, y: i, vert: true, found: false, def: utfifiy(defs[defs.findIndex(e => e.word == word)].def)});
+                    w.push({word: word, x: j-1, y: i, vert: true, found: false, def: defs[defs.findIndex(e => e.word == word)].def});
                 }
             }
         }
@@ -185,7 +185,7 @@ function compileWords() {
                         word += domGrille[i][j + n + 1].value;
                         n++;
                     }
-                    w.push({word: word, x: j, y: i-1, vert: false, found: false, def: utfifiy(defs[defs.findIndex(e => e.word == word)].def)});
+                    w.push({word: word, x: j, y: i-1, vert: false, found: false, def: defs[defs.findIndex(e => e.word == word)].def});
                 }
             }
         }
@@ -248,7 +248,7 @@ function updateQuestions(input) {
     for (let q of questions.children) {
         let quest = {
             letter: q.firstElementChild.value,
-            text: utfifiy(q.children[1].value),
+            text: q.children[1].value,
         };
         if (q.children[2].value == "Audio")
             quest.audio = q.children[3].value;

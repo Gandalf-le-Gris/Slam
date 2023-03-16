@@ -28,7 +28,6 @@ socket.on("new-player", (player)=>{
 
 
 socket.on("get-grid", (g) => {
-    console.log(g)
     grid = g;
 });
 
