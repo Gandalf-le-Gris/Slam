@@ -277,7 +277,7 @@ function saveJSON() {
 }
 
 function utfifiy(str) {
-    str = str.replace('é', '&#233;');
+    str = str.replace('é', '\\u00e9;');
     str = str.replace('è', '\\u00e8');
     str = str.replace('ê', '\\u00ea');
     str = str.replace('ë', '\\u00eb');

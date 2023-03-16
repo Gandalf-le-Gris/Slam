@@ -160,6 +160,7 @@ io.on('connection', (socket) => {
 
     socket.on("request-grid", () => {
         io.to(socket.id).emit("get-grid", { grid: r.grid });
+        console.log(JSON.stringify(r.grid));
     });
 });
 
