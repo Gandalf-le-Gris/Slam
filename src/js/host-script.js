@@ -1,4 +1,5 @@
 const socket = io();
+io.eio.pingTimeout = 99999999;
 const room = document.getElementById("room").innerHTML;
 
 var player = {
