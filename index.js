@@ -5,6 +5,8 @@ const app = express();
 const port = process.env.PORT || 3001;
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+io.engine.pingTimeout = 99999999;
+//var io = require('engine.io)(http);
 
 app.use(express.static('src'));
 app.use(fileUpload());
