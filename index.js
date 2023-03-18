@@ -5,8 +5,9 @@ const app = express();
 const port = process.env.PORT || 3001;
 var http = require('http').createServer(app);
 const io = require('socket.io')(http, {
-    pingTimeout: 3600000
-  });
+    pingTimeout: 10000,
+    pingInterval: 30000
+});
 //var io = require('engine.io)(http);
 
 app.use(express.static('src'));
