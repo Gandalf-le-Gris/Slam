@@ -83,6 +83,7 @@ socket.on("host-leave", () => {
 
 socket.on("reconnect", () => {
     emit('user-reconnect', id);
+    console.log("reconnected");
 });
 
 

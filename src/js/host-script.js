@@ -27,6 +27,7 @@ socket.on("new-player", (player)=>{
 
 socket.on("reconnect", () => {
     emit('user-reconnect', id);
+    console.log("reconnected");
 });
 
 
