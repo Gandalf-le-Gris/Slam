@@ -9,6 +9,8 @@ let player = {
     ping:0
 };
 
+var id = socket.id;
+
 function enterGame(event) {
     event.preventDefault();
     player.username = document.getElementById("nick").value;
@@ -77,7 +79,11 @@ socket.on("host-leave", () => {
     form.action = "leave";
     document.body.appendChild(form);
     form.submit();
-})
+});
+
+socket.on("reconnect", () => {
+    emit('user-reconnect', id);
+});
 
 
 

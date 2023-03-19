@@ -9,6 +9,8 @@ var player = {
     ping:0
 };
 
+var id = socket.id;
+
 window.onload = () => {
     socket.emit("start-host", player);
     socket.emit("request-grid");
@@ -21,6 +23,10 @@ socket.on("new-player", (player)=>{
         document.getElementById("name" + ind).innerHTML = player.username;
         document.getElementById("score" + ind).innerHTML = "0";
     }
+});
+
+socket.on("reconnect", () => {
+    emit('user-reconnect', id);
 });
 
 

@@ -22,6 +22,7 @@ app.set('view engine', 'ejs');
 
 
 let rooms = [];
+let users = [];
 
 
 http.listen(port , () => {
@@ -33,9 +34,21 @@ io.on('connection', (socket) => {
     let r;
 
     socket.on('disconnect', () => {
-        if (p && p.host) {
+        /*if (p && p.host) {
             io.to(p.roomId).emit("host-leave");
             rooms.splice(rooms.findIndex(e => e.id == p.roomId), 1);
+        }*/
+    });
+
+    socket.on('user-reconnect', (id) => {
+        let i = users.findIndex(e => e.id == id);
+        if (i != -1) {
+            let user = users[i];
+            p = user.p;
+            r = user.r;
+            users.splice(i, 1);
+            users.push({id: socket.id, p: p, r: r});
+            socket.join(p.roomId);
         }
     });
 
@@ -43,6 +56,7 @@ io.on('connection', (socket) => {
         console.log("Starting hosting of room " + player.roomId);
         p = player;
         r = rooms[rooms.findIndex(e => e.id === player.roomId)];
+        users.push({id: socket.id, p: p, r: r});
         r.players.push(player);
         r.buzzes = [];
         r.options = { mode: "default-mode", point: false };
@@ -57,6 +71,7 @@ io.on('connection', (socket) => {
         console.log("New player " + player.username + " in room " + player.roomId);
         p = player;
         r = rooms.find((e) => { return p.roomId === e.id; });
+        users.push({id: socket.id, p: p, r: r});
         if (!r) {
             socket.disconnect();
         } else {
