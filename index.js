@@ -34,10 +34,10 @@ io.on('connection', (socket) => {
     let r;
 
     socket.on('disconnect', () => {
-        /*if (p && p.host) {
+        if (p && p.host) {
             io.to(p.roomId).emit("host-leave");
             rooms.splice(rooms.findIndex(e => e.id == p.roomId), 1);
-        }*/
+        }
     });
 
     socket.on('user-reconnect', (id) => {

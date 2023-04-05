@@ -243,7 +243,7 @@ function nextQuestion() {
     }
 
     var question = grilleQuestions[currentQuestion];
-    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text : "Plus de questions !";
+    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text + " (" + question.letter.toUpperCase() + ")" : "Plus de questions !";
     document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
     if (question !== undefined) {
         var play = document.getElementById("play-button");
@@ -363,7 +363,7 @@ function displayDefinition(n) {
             document.getElementById("confirmAnswer").style.visibility = "hidden";
             document.getElementById("definitions").style.visibility = "visible";
             document.getElementById("wrongAnswer").style.visibility = "visible";
-            document.getElementById("definition").innerHTML = slam ? "" : word.def;
+            document.getElementById("definition").innerHTML = slam ? "" : word.def + " (" + word.word + ")";
 
             let cell;
             for (let i = 0; i < word.word.length; i++) {
