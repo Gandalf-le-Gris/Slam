@@ -181,10 +181,12 @@ socket.on("question-change", (n) => {
     currentQuestion = n;
     document.getElementById("music-player").pause();
     document.getElementById("image-displayer").style.visibility = "hidden";
-    if (grilleQuestions[currentQuestion].image == undefined) {
+    if (slam) {
+        document.getElementById("question").innerHTML = "";
+    } else if (!grilleQuestions[currentQuestion] || grilleQuestions[currentQuestion].image == undefined) {
         document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
         document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
-    } else {
+    } else if (grilleQuestions[currentQuestion].image) {
         document.getElementById("question").innerHTML = "";
         document.getElementById("image-display").src = grilleQuestions[currentQuestion].image;
         document.getElementById("image-displayer").style.visibility = "visible";
@@ -204,14 +206,18 @@ socket.on("show-def", (def) => {
     document.getElementById("question").innerHTML = def;
 });
 
-socket.on("toggle-slam", (slam, n) => {
-    if (slam) {
+socket.on("toggle-slam", (slammed, n) => {
+    if (slammed) {
         document.body.classList.add("slam-bg");
         document.getElementById("name" + (n + 1).toString()).parentElement.style.background = "#f00";
+        document.getElementById("music-player").pause();
+        document.getElementById("image-displayer").style.visibility = "hidden";
+        slam = true;
     } else {
         document.body.classList.remove("slam-bg");
         for (let i = 1; i <= 3; i++)
             document.getElementById("name" + (n + 1).toString()).parentElement.style.removeProperty("background");
+        slam = true;
     }
 });
 
