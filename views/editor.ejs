@@ -3,11 +3,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="/css/editor-style.css">
     <title>Slam</title>
+    <link rel="icon" type="image/x-icon" href="/res/cow.png">
 </head>
 
 <html>
 <body>
-    <div class="container">
+    <div class="mode-selector">
+        <div>
+            <div id="manche" class="selected" onclick="toManche()">Manche normale</div>
+            <div id="finale" onclick="toFinale()">Finale</div>
+        </div>
+    </div>
+  
+    <div id="container1" class="container">
         <div class="layout">
             <div>
                 <div class="grille" id="grille"></div>
@@ -48,6 +56,39 @@
 
         <a id="downloadAnchorElem" style="display:none"></a>
     </div>
+  
+    <div id="container2" class="container" style="display:none">
+        <div class="layout">
+            <div id="finale-grids" class="double-grid-centerer">
+                <div class="grille finale" id="grille1"></div>
+                <div class="grille finale" id="grille2"></div>
+            </div>
+          
+            <div id="finale-themes" class="double-grid-centerer">
+                <input type="text" class="theme" id="theme1" placeholder="Thème 1">
+                <input type="text" class="theme" id="theme2" placeholder="Thème 2">
+            </div>
+          
+            <div id="finale-letters" class="double-grid-centerer" style="grid-column-gap: 2vw">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="A" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="B" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="C" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="D" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="E" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="F" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="G" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="H" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="I" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+                <input type="text" class="possible-letter" pattern="[a-zA-Z]" maxlength="1" minlength="1" value="J" onchange="adjustLetterCase(this)" onkeydown="adjustLetterCase(this)" onpaste="adjustLetterCase(this)" oninput="adjustLetterCase(this)">
+            </div>
+
+            <button onclick="saveJSONFinale()" style="margin-top: 10vh; width: 20vw">Sauvegarder les grilles</button>
+        </div>
+    </div>
+  
+    <div class="home" onclick="goToHome()">
+        <img src="/res/home.png" alt="">
+    </div> 
 
     <script src="/js/editor.js" charset="utf-8"></script>
 </body>

@@ -117,7 +117,7 @@ button:hover {
     grid-template-rows: repeat(3, 8vh);
     grid-gap: 2vh;
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 2vw;
     transform: translateY(-50%);
     font-family: inherit;
@@ -326,7 +326,73 @@ img.play:hover {
     animation: peek 2s ease forwards;
 }
 
+.home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 7vh;
+  height: 7vh;
+  padding: .5vh;
+  transition: all .2s;
+  filter: invert();
+}
 
+  .home > img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+.home:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+
+
+.grille.finale {
+    grid-template-columns: repeat(12, 2.5vw);
+    grid-template-rows: repeat(11, 2.5vw);
+    pointer-events: none;
+}
+
+    .grille.finale > div {
+        font-size: 1.2vw;
+      line-height: 2.5vw;
+    }
+
+    .grille.finale > .found-cell {
+        font-size: 1.6vw;
+    }
+
+.double-grid-centerer {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10vw;
+  width: fit-content;
+}
+
+.double-grid-centerer > .grille {
+  position: relative;
+  left: 0;
+  top: 0;
+  transform: none;
+}
+
+.text-area {
+    background: rgb(76, 5, 255);
+    border-radius: 2vh;
+    padding: 1.5vh;
+    color: white;
+    font-size: 3vh;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: none;
+}
 
 
 

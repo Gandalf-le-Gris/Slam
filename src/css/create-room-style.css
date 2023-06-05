@@ -64,3 +64,26 @@ button {
         transform: translate(-50%, -50%) scale(1.08);
         cursor: pointer;
     }
+
+.home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 7vh;
+  height: 7vh;
+  padding: .5vh;
+  transition: all .2s;
+  filter: invert();
+}
+
+  .home > img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+.home:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}

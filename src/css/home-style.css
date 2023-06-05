@@ -81,7 +81,7 @@ input[type=text] {
     border-bottom: 2px solid black;
     color: white;
     text-align: center;
-    font-size: 3.5vh;
+    font-size: 1.6vw;
     padding-left: 15%;
     padding-right: 15%;
     padding-top: .5vh;
@@ -89,6 +89,6 @@ input[type=text] {
 }
 
     input[type=text]::placeholder {
-        font-size: 3vh;
+        font-size: 1.3vw;
         color: #aaa;
     }

@@ -1,9 +1,12 @@
 const nCol = 9;
 const nRow = 8;
 let domGrille = [];
+let domGrille1 = [];
+let domGrille2 = [];
 let words = [];
 let defs = [];
 let quests = [];
+let manche = true;
 
 
 
@@ -16,28 +19,33 @@ fillGridDiv();
 
 
 function fillGridDiv() {
-    let grille = document.getElementById("grille");
-    for (let i = -1; i <= nRow; i++) {
-        domGrille.push([]);
-        for (let j = -1; j <= nCol; j++) {
-            let cell = document.createElement('input');
-            cell.type = "text";
-            if (i < 0 || i == nRow || j < 0 || j == nCol)
-                cell.classList.add("hidden");
-            cell.onchange = () => writeCell(cell);
-            cell.onkeydown = () => writeCell(cell);
-            cell.onpaste = () => writeCell(cell);
-            cell.oninput = () => writeCell(cell);
-            cell.maxLength = "1";
-            cell.pattern = "[a-zA-Z]?";
-            let div = document.createElement("div");
-            div.appendChild(cell);
-            grille.appendChild(div);
-            domGrille[i+1].push(cell);
+    for (let grille of [document.getElementById("grille"), document.getElementById("grille1"), document.getElementById("grille2")]) {
+        let dsize = grille.id.endsWith("e") ? 0 : 1;
+        let domG = grille.id.endsWith("e") ? domGrille : (grille.id === "grille1" ? domGrille1 : domGrille2);
+        for (let i = -1; i <= nRow + dsize; i++) {
+            domG.push([]);
+            for (let j = -1; j <= nCol + dsize; j++) {
+                let cell = document.createElement('input');
+                cell.type = "text";
+                if (i < 0 || i == nRow + dsize || j < 0 || j == nCol + dsize)
+                    cell.classList.add("hidden");
+                cell.onchange = () => writeCell(cell);
+                cell.onkeydown = () => writeCell(cell);
+                cell.onpaste = () => writeCell(cell);
+                cell.oninput = () => writeCell(cell);
+                cell.maxLength = "1";
+                cell.pattern = "[a-zA-Z]?";
+                let div = document.createElement("div");
+                div.appendChild(cell);
+                grille.appendChild(div);
+                domG[i+1].push(cell);
+            }
+        }
+        if (grille.id === "grille") {
+            domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.id = "points";
+            domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.setAttribute("data-number", "0");
         }
     }
-    domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.id = "points";
-    domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.setAttribute("data-number", "0");
 }
 
 function writeCell(cell) {
@@ -54,54 +62,60 @@ function writeCell(cell) {
 }
 
 function updateWords() {
-    let k = 0;
     words = [];
-    for (let j = 0; j < domGrille[0].length - 1; j++) {
-        for (let i = 0; i < domGrille.length - 1; i++) {
-            let c = domGrille[i][j];
-            c.parentElement.removeAttribute("data-number");
+    for (let dom of [domGrille, domGrille1, domGrille2]) {
+        let k = 0;
+        for (let j = 0; j < dom[0].length - 1; j++) {
+            for (let i = 0; i < dom.length - 1; i++) {
+                let c = dom[i][j];
+                c.parentElement.removeAttribute("data-number");
 
-            if (!c.classList.contains("letter")) {
-                let n = 0;
-                while (n < 2 && domGrille[i + n + 1][j].classList.contains("letter"))
-                    n++;
-                if (n > 1) {
-                    k++;
-                    c.parentElement.setAttribute("data-number", k);
-                    let word = "";
-                    n = 0;
-                    while (i + n + 1 <= nRow && domGrille[i + n + 1][j].classList.contains("letter")) {
-                        word += domGrille[i + n + 1][j].value;
+                if (!c.classList.contains("letter")) {
+                    let n = 0;
+                    while (n < 2 && dom[i + n + 1][j].classList.contains("letter"))
                         n++;
+                    if (n > 1) {
+                        k++;
+                        c.parentElement.setAttribute("data-number", k);
+                        if (dom == domGrille) {
+                            let word = "";
+                            n = 0;
+                            while (i + n + 1 <= nRow && dom[i + n + 1][j].classList.contains("letter")) {
+                                word += dom[i + n + 1][j].value;
+                                n++;
+                            }
+                            words.push(word);
+                            if (defs.findIndex(e => e.word == word) == -1)
+                                defs.push({word: word, def: ""});
+                        }
                     }
-                    words.push(word);
-                    if (defs.findIndex(e => e.word == word) == -1)
-                        defs.push({word: word, def: ""});
                 }
             }
         }
-    }
 
-    for (let i = 0; i < domGrille.length - 1; i++) {
-        for (let j = 0; j < domGrille[0].length - 1; j++) {
-            let c = domGrille[i][j];
+        for (let i = 0; i < dom.length - 1; i++) {
+            for (let j = 0; j < dom[0].length - 1; j++) {
+                let c = dom[i][j];
 
-            if (!c.classList.contains("letter")) {
-                n = 0;
-                while (n < 2 && domGrille[i][j + n + 1].classList.contains("letter"))
-                    n++;
-                if (n > 1) {
-                    k++;
-                    c.parentElement.setAttribute("data-number", k);
-                    let word = "";
-                    n = 0;
-                    while (j + n + 1 <= nCol && domGrille[i][j + n + 1].classList.contains("letter")) {
-                        word += domGrille[i][j + n + 1].value;
+                if (!c.classList.contains("letter")) {
+                    let n = 0;
+                    while (n < 2 && dom[i][j + n + 1].classList.contains("letter"))
                         n++;
+                    if (n > 1) {
+                        k++;
+                        c.parentElement.setAttribute("data-number", k);
+                        if (dom == domGrille) {
+                            let word = "";
+                            n = 0;
+                            while (j + n + 1 <= nCol && domGrille[i][j + n + 1].classList.contains("letter")) {
+                                word += domGrille[i][j + n + 1].value;
+                                n++;
+                            }
+                            words.push(word);
+                            if (defs.findIndex(e => e.word == word) == -1)
+                                defs.push({word: word, def: ""});
+                        }
                     }
-                    words.push(word);
-                    if (defs.findIndex(e => e.word == word) == -1)
-                        defs.push({word: word, def: ""});
                 }
             }
         }
@@ -194,6 +208,53 @@ function compileWords() {
     return w;
 }
 
+function compileFinalWords(dom) {
+    let w = [];
+    for (let j = 0; j < dom[0].length - 1; j++) {
+        for (let i = 0; i < dom.length - 1; i++) {
+            let c = dom[i][j];
+
+            if (!c.classList.contains("letter")) {
+                let n = 0;
+                while (n < 2 && dom[i + n + 1][j].classList.contains("letter"))
+                    n++;
+                if (n > 1) {
+                    let word = "";
+                    n = 0;
+                    while (i + n + 1 <= nRow && dom[i + n + 1][j].classList.contains("letter")) {
+                        word += dom[i + n + 1][j].value;
+                        n++;
+                    }
+                    w.push({word: word, x: j-1, y: i, vert: true, found: false});
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < dom.length - 1; i++) {
+        for (let j = 0; j < dom[0].length - 1; j++) {
+            let c = dom[i][j];
+
+            if (!c.classList.contains("letter")) {
+                let n = 0;
+                while (n < 2 && dom[i][j + n + 1].classList.contains("letter"))
+                    n++;
+                if (n > 1) {
+                    let word = "";
+                    n = 0;
+                    while (j + n + 1 <= nCol && dom[i][j + n + 1].classList.contains("letter")) {
+                        word += dom[i][j + n + 1].value;
+                        n++;
+                    }
+                    w.push({word: word, x: j, y: i-1, vert: false, found: false});
+                }
+            }
+        }
+    }
+
+    return w;
+}
+
 
 
 
@@ -258,12 +319,44 @@ function updateQuestions(input) {
     }
 }
 
+function adjustLetterCase(input) {
+    if (input && input.value != "") {
+        if (input.value.match("[a-zA-Z]"))
+            input.value = input.value.toUpperCase();
+        else
+            input.value = "";
+    }
+}
+
 function compileJSON() {
     return {mots: compileWords(), questions: quests};
 }
 
+function compileJSONFinale() {
+    let res = {finale: true, grilles: [compileFinalWords(domGrille1), compileFinalWords(domGrille2)], themes: [], lettres: []};
+    for (let theme of document.getElementById("finale-themes").children)
+        res.themes.push(theme.value);
+    for (let letter of document.getElementById("finale-letters").children)
+        res.lettres.push(letter.value);
+    return res;
+}
+
 function saveJSON() {
     let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(compileJSON()));
+    let dlAnchorElem = document.getElementById('downloadAnchorElem');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "grille.json");
+    dlAnchorElem.click();
+
+    let form = document.createElement("form");
+    form.method = "post";
+    form.action = "save-json";
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function saveJSONFinale() {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(compileJSONFinale()));
     let dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute("href", dataStr);
     dlAnchorElem.setAttribute("download", "grille.json");
@@ -304,4 +397,32 @@ function utfifiy(str) {
     str = str.replace('ç', '\\u00e7');
     str = str.replace('Ç', '\\u00c7');
     return str;
+}
+
+function toManche() {
+    document.getElementById("finale").classList.remove("selected");
+    document.getElementById("manche").classList.add("selected");
+    document.getElementById("container1").style.removeProperty("display");
+    document.getElementById("container2").style.display = "none";
+    manche = true;
+}
+
+function toFinale() {
+    document.getElementById("finale").classList.add("selected");
+    document.getElementById("manche").classList.remove("selected");
+    document.getElementById("container2").style.removeProperty("display");
+    document.getElementById("container1").style.display = "none";
+    manche = false;
+}
+
+
+
+
+
+function goToHome() {
+  let form = document.createElement("form");
+  form.method = "post";
+  form.action = "leave";
+  document.body.appendChild(form);
+  form.submit();
 }

@@ -26,7 +26,7 @@ socket.on("new-player", (player)=>{
 });
 
 socket.on("reconnect", () => {
-    emit('user-reconnect', id);
+    socket.emit('user-reconnect', id);
     console.log("reconnected");
 });
 
@@ -34,8 +34,23 @@ socket.on("reconnect", () => {
 
 
 
-socket.on("get-grid", (g) => {
-    grid = g;
+socket.on("get-grid", (r) => {
+    let g = JSON.parse(r.grid);
+    if (!g.finale) {
+        grid = g;
+        grilleMots = grid.mots;
+        fillGridDiv();
+        grilleQuestions = grid.questions;
+    } else {
+        grid1.mots = g.grilles[0];
+        grid2.mots = g.grilles[1];
+        theme1 = g.themes[0];
+        theme2 = g.themes[1];
+        finalLetters = g.lettres;
+        toggleFinal();
+        fillFinalGridDiv();
+        finale = true;
+    }
 });
 
 socket.on("unlock-buzz",()=>{
@@ -130,18 +145,27 @@ function unlockBuzzer() {
 
 
 
-var grid = JSON.parse(document.getElementById("grid-data").innerHTML);
-var grilleMots = grid.mots;
-var grilleQuestions = grid.questions;
+var grid;
+var grid1 = {mots: []};
+var grid2 = {mots: []};
+var grilleMots;
+var grilleQuestions;
 var candidats = [];
+var finale = false;
 
 
-const nCol = 9;
-const nRow = 8;
+var nCol = 9;
+var nRow = 8;
 var domGrille = [];
+var domGrille1 = [];
+var domGrille2 = [];
+var theme1;
+var theme2;
+var finalLetters = [];
 var currentQuestion = -1;
 var currentDef = -1;
 var currentCandidate = -1;
+var currentGrid = -1;
 var slam = false;
 var resetTO = undefined;
 
@@ -164,7 +188,6 @@ function Question(text, letter, audio, image) {
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    fillGridDiv();
     showCandidates();
     peekaboo();
 }
@@ -197,6 +220,67 @@ function fillGridDiv() {
             cell.innerHTML = w[i];
         }
     }
+  
+    socket.emit("dom-grid-change", document.getElementById("grille").innerHTML, 0);
+}
+
+function fillFinalGridDiv() {
+    let grille = document.getElementById("grille1");
+    for (let i = -1; i <= nRow; i++) {
+        domGrille1.push([]);
+        for (let j = -1; j <= nCol; j++) {
+            let cell = document.createElement('div');
+            grille.appendChild(cell);
+            domGrille1[i+1].push(cell);
+        }
+    }
+    let cell;
+    for (let word of grid1.mots) {
+        cell = domGrille1[word.y + !word.vert][word.x + word.vert];
+        cell.classList.add("number-cell");
+        if (cell.innerHTML === "") {
+            cell.innerHTML = (grid1.mots.findIndex(e => e === word) + 1).toString();
+            cell.onclick = () => { displayDefinition(grid1.mots.findIndex(e => e === word), 1); };
+        } else {
+            alternateLabel(parseInt(cell.innerHTML), grid1.mots.findIndex(e => e === word) + 1, cell);
+        }
+
+        let w = word.word;
+        for (let i = 0; i < w.length; i++) {
+            cell = domGrille1[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+            cell.classList.add("used-cell");
+            cell.innerHTML = w[i];
+        }
+    }
+    socket.emit("dom-grid-change", document.getElementById("grille1").innerHTML, 1);
+  
+    grille = document.getElementById("grille2");
+    for (let i = -1; i <= nRow; i++) {
+        domGrille2.push([]);
+        for (let j = -1; j <= nCol; j++) {
+            let cell = document.createElement('div');
+            grille.appendChild(cell);
+            domGrille2[i+1].push(cell);
+        }
+    }
+    for (let word of grid2.mots) {
+        cell = domGrille2[word.y + !word.vert][word.x + word.vert];
+        cell.classList.add("number-cell");
+        if (cell.innerHTML === "") {
+            cell.innerHTML = (grid2.mots.findIndex(e => e === word) + 1).toString();
+            cell.onclick = () => { displayDefinition(grid2.mots.findIndex(e => e === word), 2); };
+        } else {
+            alternateLabel(parseInt(cell.innerHTML), grid2.mots.findIndex(e => e === word) + 1, cell);
+        }
+
+        let w = word.word;
+        for (let i = 0; i < w.length; i++) {
+            cell = domGrille2[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+            cell.classList.add("used-cell");
+            cell.innerHTML = w[i];
+        }
+    }
+    socket.emit("dom-grid-change", document.getElementById("grille2").innerHTML, 2);
 }
 
 function alternateLabel(n1, n2, cell) {
@@ -236,6 +320,14 @@ function nextQuestion() {
             }
         }
     }
+    
+    let nLetters = 0;
+    if (currentQuestion < grilleQuestions.length)
+        for (let i = 0; i < domGrille.length; i++)
+            for (let j = 0; j < domGrille[0].length; j++)
+                if (domGrille[i][j].innerHTML === grilleQuestions[currentQuestion].letter && !domGrille[i][j].className.includes("found"))
+                    nLetters++;
+
     let cell;
     for (let word of grilleMots) {
         cell = domGrille[word.y + !word.vert][word.x + word.vert];
@@ -243,7 +335,7 @@ function nextQuestion() {
     }
 
     var question = grilleQuestions[currentQuestion];
-    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text + " (" + question.letter.toUpperCase() + ")" : "Plus de questions !";
+    document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? question.text + " (" + question.letter.toUpperCase() + " ×" + nLetters + ")" : "Plus de questions !";
     document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
     if (question !== undefined) {
         var play = document.getElementById("play-button");
@@ -292,9 +384,15 @@ function toggleImage() {
         document.getElementById("question").innerHTML = "";
         socket.emit("image-show");
     } else {
+      let nLetters = 0;
+      for (let i = 0; i < domGrille.length; i++)
+          for (let j = 0; j < domGrille[0].length; j++)
+              if (domGrille[i][j].innerHTML === grilleQuestions[currentQuestion].letter && !domGrille[i][j].className.includes("found"))
+                  nLetters++;
+      
         play.src = "/res/show.png";
         box.style.visibility = "hidden";
-        document.getElementById("question").innerHTML = grilleQuestions[currentQuestion].text;
+        document.getElementById("question").innerHTML = grilleQuestions[currentQuestion].text  + " (" + grilleQuestions[currentQuestion].letter.toUpperCase() + " ×" + nLetters + ")";
         document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
         socket.emit("image-hide");
     }
@@ -343,8 +441,8 @@ function showAnswer() {
     }
 }
 
-function updateGrid() {
-    socket.emit("dom-grid-change", document.getElementById("grille").innerHTML);
+function updateGrid(n) {
+    socket.emit("dom-grid-change", !n ? document.getElementById("grille").innerHTML : (n == 1 ? document.getElementById("grille1").innerHTML : document.getElementById("grille2").innerHTML), n);
 }
 
 function updateScores() {
@@ -354,32 +452,36 @@ function updateScores() {
     socket.emit("score-change", scores);
 }
 
-function displayDefinition(n) {
-    if (currentCandidate >= 0) {
-        if (!grilleMots[n].found) {
+function displayDefinition(n, g) {
+    if (currentCandidate >= 0 || finale) {
+        let grille;
+        if (g)
+            grille = g == 1 ? grid1 : grid2;
+        if ((grille && !grille.mots[n].found) || !grilleMots[n].found) {
             currentDef = n;
-            let word = grilleMots[n];
+            let word = g ? (g == 1 ? grid1.mots[n] : grid2.mots[n]) : grilleMots[n];
             document.getElementById("questions").style.visibility = "hidden";
             document.getElementById("confirmAnswer").style.visibility = "hidden";
             document.getElementById("definitions").style.visibility = "visible";
             document.getElementById("wrongAnswer").style.visibility = "visible";
-            document.getElementById("definition").innerHTML = slam ? "" : word.def + " (" + word.word + ")";
+            document.getElementById("definition").innerHTML = (word.def ? word.def : "") + " (" + word.word + ")";
 
             let cell;
+            let dom = g ? (g == 1 ? domGrille1 : domGrille2) : domGrille;
             for (let i = 0; i < word.word.length; i++) {
-                cell = domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+                cell = dom[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
                 cell.classList.add("tried-cell");
                 cell.classList.add("focused-cell");
             }
 
-            if (!slam)
+            if (!slam && word.def)
                 resetTO = setTimeout(() => {
                     document.getElementById("buzz").play();
                     switchToQuestions();
                 }, 12000);
             
             updateGrid();
-            socket.emit("show-def", slam ? "" : word.def);
+            socket.emit("show-def", slam || !word.def ? "" : word.def);
         }
     } else
         alert("Choisis d'abord un candidat !");
@@ -403,69 +505,106 @@ function switchToQuestions() {
     }
 
     let cell;
-    let word = grilleMots[currentDef];
+    let mots = currentGrid > 0 ? (currentGrid == 1 ? grid1.mots : grid2.mots) : grilleMots;
+    let dom = currentGrid > 0 ? (currentGrid == 1 ? domGrille1 : domGrille2) : domGrille;
+    let word = mots[currentDef];
     for (let i = 0; i < word.word.length; i++) {
-        cell = domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+        cell = dom[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
         cell.classList.remove("focused-cell");
     }
-    for (let word of grilleMots) {
-        cell = domGrille[word.y + !word.vert][word.x + word.vert];
+    for (let word of mots) {
+        cell = dom[word.y + !word.vert][word.x + word.vert];
         cell.classList.add("number-cell");
     }
     currentDef = -1;
 
     socket.emit("question-change", currentQuestion);
-    updateGrid();
-    updateScores();
+    if (!finale) {
+      updateScores();
+      updateGrid();
+    } else if (currentGrid > 0) {
+      updateGrid(currentGrid);
+    }
 }
 
 function confirmWord() {
-    let cell;
-    let word = grilleMots[currentDef];
-    for (let i = 0; i < word.word.length; i++) {
-        cell = domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
-        cell.classList.add("found-cell");
-    }
-    word.found = true;
+    if (!finale) {
+        let cell;
+        let word = grilleMots[currentDef];
+        for (let i = 0; i < word.word.length; i++) {
+            cell = domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+            cell.classList.add("found-cell");
+        }
+        word.found = true;
 
-    let ind = (currentCandidate + 1).toString();
-    for (let word of grilleMots) {
-        if (!word.found) {
-            let found = true;
-            for (let i = 0; i < word.word.length; i++) {
-                if (!domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found"))
-                    found = false;
+        let ind = (currentCandidate + 1).toString();
+        for (let word of grilleMots) {
+            if (!word.found) {
+                let found = true;
+                for (let i = 0; i < word.word.length; i++) {
+                    if (!domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found"))
+                        found = false;
+                }
+                word.found = found;
+                if (found && !slam)
+                    document.getElementById("score" + ind).innerHTML = (parseInt(document.getElementById("score" + ind).innerHTML) + word.word.length).toString();
             }
-            word.found = found;
-            if (found && !slam)
-                document.getElementById("score" + ind).innerHTML = (parseInt(document.getElementById("score" + ind).innerHTML) + word.word.length).toString();
         }
-    }
 
-    let end = true;
-    for (let word of grilleMots)
-        if (!word.found)
-            end = false;
+        let end = true;
+        for (let word of grilleMots)
+            if (!word.found)
+                end = false;
 
-    let score = document.getElementById("score" + ind);
-    if (!slam)
-        score.innerHTML = (parseInt(score.innerHTML) + word.word.length).toString();
-    else {
-        if (end) {
-            let s = 0;
-            for (let word of grilleMots)
-                if (word.slam)
-                    s += word.word.length;
-            score.innerHTML = (parseInt(score.innerHTML) + s).toString();
+        let score = document.getElementById("score" + ind);
+        if (!slam)
+            score.innerHTML = (parseInt(score.innerHTML) + word.word.length).toString();
+        else {
+            if (end) {
+                let s = 0;
+                for (let word of grilleMots)
+                    if (word.slam)
+                        s += word.word.length;
+                score.innerHTML = (parseInt(score.innerHTML) + s).toString();
+            }
         }
+
+        if (end)
+            socket.emit("game-end");
+  
+        clearTimeout(resetTO);
+
+        switchToQuestions();
+    } else {
+        let cell;
+        let word = (currentGrid == 1 ? grid1.mots : grid2.mots)[currentDef];
+        for (let i = 0; i < word.word.length; i++) {
+            cell = (currentGrid == 1 ? domGrille1 : domGrille2)[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)];
+            cell.classList.add("found-cell");
+        }
+        word.found = true;
+      
+        for (let word of (currentGrid == 1 ? grid1.mots : grid2.mots)) {
+            if (!word.found) {
+                let found = true;
+                for (let i = 0; i < word.word.length; i++) {
+                    if (!(currentGrid == 1 ? domGrille1 : domGrille2)[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found"))
+                        found = false;
+                }
+                word.found = found;
+            }
+        }
+
+        let end = true;
+        for (let word of (currentGrid == 1 ? grid1.mots : grid2.mots))
+            if (!word.found)
+                end = false;
+      
+        switchToQuestions();
+      
+        if (end)
+            selectTheme(currentGrid);
     }
-
-    clearTimeout(resetTO);
-
-    switchToQuestions();
-
-    if (end)
-        socket.emit("game-end");
 }
 
 function selectCandidate(n) {
@@ -541,6 +680,155 @@ function wrongAnswer() {
     }
 }
 
+function toggleFinal() {
+  nCol++;
+  nRow++;
+  document.getElementsByClassName("candidates")[0].style.display = "none";
+  document.getElementById("buzzers").style.display = "none";
+  document.getElementById("questions").style.display = "none";
+  document.getElementById("confirmAnswer").style.display = "none";
+  document.getElementById("grille").style.display = "none";
+  document.getElementById("marguerite").style.display = "none";
+  document.getElementById("finale-grids").style.removeProperty("display");
+  document.getElementById("themes").style.removeProperty("display");
+  document.getElementById("time").style.removeProperty("display");
+  document.getElementById("letters").style.removeProperty("display");
+  document.getElementById("theme1").innerHTML = theme1;
+  document.getElementById("theme2").innerHTML = theme2;
+  initLetters();
+}
+
+function initLetters() {
+  let lettersDiv = document.getElementById("letters");
+  for (let l of finalLetters) {
+    let cell = document.createElement('div');
+    cell.className = "text-area";
+    cell.innerHTML = l.toUpperCase();
+    cell.onclick = () => selectLetter(l);
+    lettersDiv.appendChild(cell);
+    cell.style.setProperty("pointer-events", "all");
+  }
+}
+
+let selectedLetters = 0;
+
+function selectLetter(l) {
+  for (let grid of [grid1, grid2]) {
+    for (let word of grid.mots) {
+      let cell;
+      for (let i = 0; i < word.word.length; i++) {
+        cell = (grid === grid1 ? domGrille1 : domGrille2)[word.y + 1 + i * word.vert][word.x + 1 + i * !word.vert];
+        if (cell.innerHTML === l)
+          cell.classList.add("found-cell");
+      }
+    }
+
+    let cell;
+
+    for (let word of grid.mots) {
+      if (!word.found) {
+        let found = true;
+        for (let i = 0; i < word.word.length; i++) {
+          if (
+            !(grid === grid1 ? domGrille1 : domGrille2)[word.y + 1 + i * word.vert][
+              word.x + 1 + i * !word.vert
+            ].className.includes("found")
+          )
+            found = false;
+        }
+        word.found = found;
+      }
+    }
+  }
+  
+  for (let letter of document.getElementById("letters").children)
+    if (letter.innerHTML == l) {
+      letter.style.opacity = .5;
+      letter.style.setProperty("pointer-events", "none");
+    }
+  
+  updateGrid(1);
+  updateGrid(2);
+  
+  selectedLetters++;
+  if (selectedLetters == 7) {
+    document.getElementById("letters").style.setProperty("display", "none");
+    document.getElementById("theme1").style.setProperty("pointer-events", "all");
+    document.getElementById("theme2").style.setProperty("pointer-events", "all");
+  }
+}
+
+function selectTheme(n) {
+  if (n == 1 && currentGrid != 1) {
+    document.getElementById("grille1").style.setProperty("opacity", "1");
+    document.getElementById("grille1").style.setProperty("pointer-events", "all");
+    document.getElementById("theme1").style.setProperty("opacity", "1");
+    document.getElementById("theme1").style.setProperty("pointer-events", "all");
+    document.getElementById("grille2").style.setProperty("opacity", ".5");
+    document.getElementById("grille2").style.setProperty("pointer-events", "none");
+    document.getElementById("theme2").style.setProperty("opacity", ".5");
+    document.getElementById("theme2").style.setProperty("pointer-events", "none");
+    currentGrid = n;
+    startGrid(1);
+  } else if (n == 2 && currentGrid != 2) {
+    document.getElementById("grille2").style.setProperty("opacity", "1");
+    document.getElementById("grille2").style.setProperty("pointer-events", "all");
+    document.getElementById("theme2").style.setProperty("opacity", "1");
+    document.getElementById("theme2").style.setProperty("pointer-events", "all");
+    document.getElementById("grille1").style.setProperty("opacity", ".5");
+    document.getElementById("grille1").style.setProperty("pointer-events", "none");
+    document.getElementById("theme1").style.setProperty("opacity", ".5");
+    document.getElementById("theme1").style.setProperty("pointer-events", "none");
+    currentGrid = n;
+    startGrid(2);
+  } else if (n == currentGrid) {
+    document.getElementById("grille1").style.setProperty("opacity", "1");
+    document.getElementById("grille1").style.setProperty("pointer-events", "all");
+    document.getElementById("theme1").style.setProperty("opacity", "1");
+    document.getElementById("theme1").style.setProperty("pointer-events", "all");
+    document.getElementById("grille2").style.setProperty("opacity", "1");
+    document.getElementById("grille2").style.setProperty("pointer-events", "all");
+    document.getElementById("theme2").style.setProperty("opacity", "1");
+    document.getElementById("theme2").style.setProperty("pointer-events", "all");
+    currentGrid = -1;
+    stopTimer();
+  }
+}
+
+let timerTO;
+
+function decreaseTimer() {
+  let timer = document.getElementById("time");
+  let time = parseInt(timer.innerHTML);
+  if (time > 0)
+    time--;
+  timer.innerHTML = time;
+  if (time > 0)
+    timerTO = setTimeout(decreaseTimer, 1000);
+  else
+    document.getElementById("buzz").play();
+}
+
+function startGrid(n) {
+  socket.emit("start-grid", n);
+  timerTO = setTimeout(decreaseTimer, 1000);
+}
+
+function stopTimer() {
+  socket.emit("stop-timer", document.getElementById("time").innerHTML);
+  clearTimeout(timerTO);
+}
+
+
+
+
+
+
+
+
+
+
+
 function peekaboo() {
     setTimeout(() => {
         document.getElementById("marguerite").classList.add("peekaboo");
@@ -575,3 +863,16 @@ socket.on("game-end", (r) => {
         winDiv.style.removeProperty("opacity");
     }, 8000);
 });
+
+
+
+
+
+
+function goToHome() {
+  let form = document.createElement("form");
+  form.method = "post";
+  form.action = "leave";
+  document.body.appendChild(form);
+  form.submit();
+}
