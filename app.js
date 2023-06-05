@@ -2,7 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8081;
 var http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     pingTimeout: 10000,
