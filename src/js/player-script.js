@@ -544,6 +544,15 @@ function stopTimer(time) {
 
 
 
+socket.on("soundboard-get", (src) => {
+  let audio = document.getElementById("soundboard-player");
+  audio.src = src;
+  audio.play();
+});
+
+
+
+
 
 
 function goToHome() {

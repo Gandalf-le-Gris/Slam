@@ -199,6 +199,11 @@ io.on('connection', (socket) => {
         if (p.host)
             io.to(p.roomId).emit("stop-timer", time);
     });
+
+    socket.on("soundboard-send", (src) => {
+        if (p.host)
+            io.to(p.roomId).emit("soundboard-get", src);
+    });
 });
 
 app.post('/create-room', (req, res) => {

@@ -868,6 +868,27 @@ socket.on("game-end", (r) => {
 
 
 
+function playSound(src) {
+    let audio = document.getElementById("soundboard-player");
+    audio.src = src;
+    audio.play();
+    socket.emit("soundboard-send", src);
+}
+
+function openSoundboard() {
+    document.getElementById("open-soundboard").style.display = "none";
+    document.getElementById("soundboard-content").style.removeProperty("display");
+}
+
+function closeSoundboard() {
+    document.getElementById("open-soundboard").style.removeProperty("display");
+    document.getElementById("soundboard-content").style.display = "none";
+}
+
+
+
+
+
 
 function goToHome() {
   let form = document.createElement("form");
