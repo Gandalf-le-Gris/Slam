@@ -474,12 +474,13 @@ function displayDefinition(n, g) {
                 cell.classList.add("focused-cell");
             }
 
-            if (!slam && word.def)
+            if (!slam && word.def) {
+                playSound("../res/reflexion.mp3");
                 resetTO = setTimeout(() => {
-                    playSound("../res/reflexion.mp3");
                     document.getElementById("buzz").play();
                     switchToQuestions();
                 }, 12000);
+            }
             
             updateGrid();
             socket.emit("show-def", slam || !word.def ? "" : word.def);
