@@ -476,6 +476,7 @@ function displayDefinition(n, g) {
 
             if (!slam && word.def)
                 resetTO = setTimeout(() => {
+                    playSound("../res/reflexion.mp3");
                     document.getElementById("buzz").play();
                     switchToQuestions();
                 }, 12000);
