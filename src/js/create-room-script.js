@@ -34,7 +34,7 @@ function sendFile() {
     reader.onload = (evt) => {
       try {
         let grid = JSON.parse(evt.target.result);
-        if (!grid.questions || !grid.mots) {
+        if ((!grid.questions || !grid.mots) && !grid.finale) {
           alert("Impossible de lire le contenu de cette grille.");
         } else {
           document.getElementById("grid-input").value = evt.target.result;
@@ -54,7 +54,7 @@ function sendFileContent(file) {
     reader.onload = (evt) => {
       try {
         let grid = JSON.parse(evt.target.result);
-        if (!grid.questions || !grid.mots) {
+        if ((!grid.questions || !grid.mots) && !grid.finale) {
           alert("Impossible de lire le contenu de cette grille.");
         } else {
           document.getElementById("grid-input").value = evt.target.result;
@@ -88,6 +88,16 @@ function createGrid() {
   let form = document.createElement("form");
   form.method = "post";
   form.action = "create-grid";
+  document.body.appendChild(form);
+  form.submit();
+}
+
+
+
+function goToHome() {
+  let form = document.createElement("form");
+  form.method = "post";
+  form.action = "leave";
   document.body.appendChild(form);
   form.submit();
 }

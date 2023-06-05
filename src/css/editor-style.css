@@ -12,9 +12,55 @@ html, body {
     outline: none;
 }
 
+.mode-selector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10vh;
+  overflow: hidden;
+}
+
+.mode-selector > div {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 5vh;
+  display: grid;
+  grid-template-columns: repeat(2, 25vw);
+  width: fit-content;
+}
+
+.mode-selector > div > div {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  font-size: 2.5vh;
+  line-height: 5vh;
+  background-color: rgba(76,5,255,.3);
+}
+
+.mode-selector > div > div:nth-child(1) {
+  border-top-left-radius: 2vh;
+  border-bottom-left-radius: 2vh;
+}
+
+.mode-selector > div > div:nth-child(2) {
+  border-top-right-radius: 2vh;
+  border-bottom-right-radius: 2vh;
+}
+
+.mode-selector > div > .selected {
+  background-color: rgb(76 5 255);
+  font-weight: bold;
+}
+
 .container {
     position: absolute;
-    top: 0;
+    top: 10vh;
     bottom: 0;
     left: 0;
     right: 0;
@@ -43,6 +89,13 @@ html, body {
     color: rgb(76 5 255);
     border-radius: 2vw;
     color: white;
+    width: fit-content;
+    height: fit-content;
+}
+
+.grille.finale {
+    grid-template-columns: repeat(12, 3vw);
+    grid-template-rows: repeat(11, 3vw);
 }
 
     .grille > * {
@@ -229,3 +282,76 @@ button {
         transform: scale(1.08);
         cursor: pointer;
     }
+
+.home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 7vh;
+  height: 7vh;
+  padding: .5vh;
+  transition: all .2s;
+  filter: invert();
+}
+
+  .home > img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+
+.home:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.double-grid-centerer {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10vw;
+  width: fit-content;
+}
+
+.double-grid-centerer > .grille {
+  position: relative;
+  left: 0;
+}
+
+.theme {
+    border: none;
+    background: rgb(76 5 255);
+    padding: 1vh;
+    border-radius: 2vh;
+    color: white;
+    font-size: 1.5vw;
+    text-align: center;
+    height: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+    outline: none;
+    width: 36vw;
+}
+
+    .theme::placeholder {
+        color: #808080;
+        text-align: center;
+    }
+
+.possible-letter {
+    border: none;
+    background: rgb(76 5 255);
+    padding: 1vh;
+    border-radius: 2vh;
+    color: white;
+    font-size: 1.5vw;
+    text-align: center;
+    height: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+    outline: none;
+    width: 3vw;
+}

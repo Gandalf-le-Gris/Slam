@@ -3,10 +3,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="/css/play-style.css">
     <title>Slam</title>
+    <link rel="icon" type="image/x-icon" href="/res/cow.png">
 </head>
 
 <html>
 <body>
+    <div class="home" onclick="goToHome()">
+        <img src="/res/home.png" alt="">
+    </div>
+  
     <div id="grid-data" style="display: none"><%= grid %></div>
 
     <img class="hidden-marguerite" src="/res/marguerite.png" id="marguerite" />
@@ -59,6 +64,18 @@
             <p style="color: white; font-size: 2vh; transform: translateY(-3vh); text-align: center;">⚠ Laisser le champ vide pour entrer en mode spectateur.</p>
         </form>
     </div>
+      
+    <div id="finale-grids" class="double-grid-centerer" style="display: none; top: 35%; transform: translate(-50%, -50%);">
+        <div class="grille finale" id="grille1"></div>
+        <div class="grille finale" id="grille2"></div>
+    </div>
+      
+    <div id="themes" class="double-grid-centerer" style="display: none; position: absolute; top: 70%; transform: translate(-50%, -50%);">
+        <div class="text-area" id="theme1" onclick="selectTheme(1)"></div>
+        <div class="text-area" id="theme2" onclick="selectTheme(2)"></div>
+    </div>
+      
+    <div id="time" class="text-area" style="position: absolute; display: none; top: 35%; left: 50%; transform: translate(-50%, -50%) scale(1.3);">100</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
     <script src="/js/player-script.js" charset="utf-8"></script>

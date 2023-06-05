@@ -17,6 +17,10 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 
+process.on('uncaughtException', err => {
+    console.log(err);
+});
+
 
 
 
@@ -64,6 +68,7 @@ io.on('connection', (socket) => {
         r.locked = false;
         r.slam = -1;
         r.scores = ["", "", ""];
+        r.ready = true;
         socket.join(p.roomId);
     });
 
@@ -76,8 +81,7 @@ io.on('connection', (socket) => {
             socket.disconnect();
         } else {
             if (r.players.findIndex(e => e.username == player.username) != -1) {
-                r.players.splice(r.players.findIndex(e => e.username == player.username), 1);
-                r.players.push(player);
+                r.players.splice(r.players.findIndex(e => e.username == player.username), 1, player);
             } else {
                 r.players.push(player);
                 r.scores[r.scores.findIndex(e => e == "")] = "0";
@@ -125,10 +129,15 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on("dom-grid-change", (dom) => {
+    socket.on("dom-grid-change", (dom, n) => {
         if (p.host) {
-            r.dom = dom;
-            io.to(p.roomId).emit("dom-grid-change", dom);
+            if (!n)
+              r.dom = dom;
+            else if (n == 1)
+              r.dom1 = dom;
+            else if (n == 2)
+              r.dom2 = dom;
+            io.to(p.roomId).emit("dom-grid-change", dom, n);
         }
     });
 
@@ -178,7 +187,17 @@ io.on('connection', (socket) => {
     });
 
     socket.on("request-grid", () => {
-        io.to(socket.id).emit("get-grid", { grid: r.grid });
+        io.to(socket.id).emit("get-grid", r);
+    });
+  
+    socket.on("start-grid", (n) => {
+        if (p.host)
+            io.to(p.roomId).emit("start-grid", n);
+    });
+  
+    socket.on("stop-timer", (time) => {
+        if (p.host)
+            io.to(p.roomId).emit("stop-timer", time);
     });
 });
 
@@ -222,13 +241,25 @@ app.post('/join-room', (req, res) => {
 
 app.get('/play/:room', (req, res) => {
     const room = req.params.room;
-    if (rooms.findIndex(e => e.id == parseInt(room)) != -1)
+    if (rooms.findIndex(e => e.id == parseInt(room)) != -1 && rooms[rooms.findIndex(e => e.id == parseInt(room))].ready)
         res.render('grille-candidat.ejs', { room: room, grid: rooms[rooms.findIndex(e => e.id == parseInt(room))].grid });
     else
         res.redirect('/');
 });
 
 app.post('/play/leave', (req, res) => {
+    res.redirect('/');
+});
+
+app.post('/host/leave', (req, res) => {
+    res.redirect('/');
+});
+
+app.post('/create/leave', (req, res) => {
+    res.redirect('/');
+});
+
+app.post('/leave', (req, res) => {
     res.redirect('/');
 });
 
