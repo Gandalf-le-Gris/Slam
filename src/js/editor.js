@@ -31,6 +31,42 @@ function fillGridDiv() {
                     cell.classList.add("hidden");
                 cell.onchange = () => writeCell(cell);
                 cell.onkeydown = () => writeCell(cell);
+                cell.addEventListener("keydown", (event) => {
+                    let c = event.target || event.srcElement;
+                    let pos = getGridElementsPosition(c);
+                    let row = pos.row;
+                    let col = pos.col;
+                    let tRow = row;
+                    let tCol = col;
+                    let nRowL = nRow + c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2");
+                    let nColL = nCol + c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2");
+                    switch (event.key) {
+                        case "ArrowUp":
+                            if (row > 1)
+                                tRow--;
+                            break;
+                        case "ArrowDown":
+                            if (row < nRowL)
+                                tRow++;
+                            break;
+                        case "ArrowLeft":
+                            if (col > 1)
+                                tCol--;
+                            break;
+                        case "ArrowRight":
+                            if (col < nColL)
+                                tCol++;
+                            break;
+                    }
+                    if (row != tRow || col != tCol) {
+                        for (let c2 of c.parentNode.parentNode.children) {
+                            let pos2 = getGridElementsPosition(c2.children[0])
+                            if (pos2.row == tRow && pos2.col == tCol) {
+                                c2.children[0].focus();
+                            }
+                        }
+                    }
+                });
                 cell.onpaste = () => writeCell(cell);
                 cell.oninput = () => writeCell(cell);
                 cell.maxLength = "1";
@@ -46,6 +82,23 @@ function fillGridDiv() {
             domGrille[domGrille.length - 1][domGrille[0].length - 1].parentElement.setAttribute("data-number", "0");
         }
     }
+}
+
+function getGridElementsPosition(c) {
+    const gridEl = c.parentNode.parentNode;
+    const index = getNodeIndex(c);
+    let offset = Number(window.getComputedStyle(gridEl.children[0]).gridColumnStart) - 1; 
+    if (isNaN(offset))
+        offset = 0;
+    const colCount = window.getComputedStyle(gridEl).gridTemplateColumns.split(" ").length;
+    const rowPosition = Math.floor((index + offset) / colCount);
+    const colPosition = (index + offset) % colCount;
+    return { row: rowPosition, col: colPosition };
+}
+  
+function getNodeIndex(elm) {
+    var c = elm.parentNode.parentNode.children, i = 0;
+    for (; i < c.length; i++) if (c[i].children[0] === elm) return i;
 }
 
 function writeCell(cell) {
