@@ -478,7 +478,7 @@ function displayDefinition(n, g) {
             if (!slam && word.def) {
                 playSound("../res/reflexion.mp3");
                 resetTO = setTimeout(() => {
-                    document.getElementById("buzz").play();
+                    playSound("../res/buzz.mp3");
                     switchToQuestions();
                 }, 12000);
             }
@@ -683,6 +683,7 @@ function wrongAnswer() {
             }
             playSound("../src/rate.mp3");
         } else {
+            stopSound();
             switchToQuestions();
             clearTimeout(resetTO);
         }
@@ -882,6 +883,11 @@ function playSound(src) {
     audio.src = src;
     audio.play();
     socket.emit("soundboard-send", src);
+}
+
+function stopSound() {
+    document.getElementById("soundboard-player").pause();
+    socket.emit("stop-soundboard");
 }
 
 function openSoundboard() {
