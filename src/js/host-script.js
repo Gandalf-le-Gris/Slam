@@ -907,7 +907,15 @@ function closeSoundboard() {
 
 
 
+function openDefinitions() {
+    document.getElementById("open-defs").style.display = "none";
+    document.getElementById("defs-content").style.removeProperty("display");
+}
 
+function closeDefinitions() {
+    document.getElementById("open-defs").style.removeProperty("display");
+    document.getElementById("defs-content").style.display = "none";
+}
 
 function prepareDefinitionsTooltip() {
     let defs = document.getElementById("defs");
