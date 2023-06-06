@@ -684,6 +684,7 @@ function wrongAnswer() {
                 }
             }
             playSound("../res/rate.mp3");
+            switchToQuestions();
         } else {
             stopSound();
             switchToQuestions();
