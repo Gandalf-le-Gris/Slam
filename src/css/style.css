@@ -458,9 +458,11 @@ img.play:hover {
 
 #defs-content > div {
     color: white;
+    font-size: 1.7vh;
 }
 
 #defs-content > h1 {
+    position: relative;
     height: 0;
     width: 70%;
     left: 15%;

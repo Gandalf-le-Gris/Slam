@@ -927,9 +927,11 @@ function prepareDefinitionsTooltip() {
         list.appendChild(d);
     }
     list.appendChild(document.createElement('h1'));
+    let i = 0;
     for (let q of grilleMots) {
+        i++;
         let d = document.createElement('div');
-        d.innerHTML = q.word.toUpperCase() + " " + q.def;
+        d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
         list.appendChild(d);
     }
 }
