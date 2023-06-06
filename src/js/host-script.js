@@ -575,6 +575,8 @@ function confirmWord() {
         if (end) {
             if (!slam)
                 playSound("../res/complet.mp3");
+            else
+                playSound("../res/correct.mp3");
             socket.emit("game-end");
         } else {
             playSound("../res/correct.mp3");
