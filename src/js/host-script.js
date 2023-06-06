@@ -434,6 +434,7 @@ function showAnswer() {
                 }
             }
 
+            playSound("../res/correct.mp3");
             updateGrid();
             updateScores();
         } else
@@ -571,8 +572,13 @@ function confirmWord() {
             }
         }
 
-        if (end)
+        if (end) {
+            if (!slam)
+                playSound("../res/complet.mp3");
             socket.emit("game-end");
+        } else {
+            playSound("../res/correct.mp3");
+        }
   
         clearTimeout(resetTO);
 
@@ -675,6 +681,7 @@ function wrongAnswer() {
                     word.slam = undefined;
                 }
             }
+            playSound("../src/rate.mp3");
         } else {
             switchToQuestions();
             clearTimeout(resetTO);
