@@ -683,7 +683,7 @@ function wrongAnswer() {
                     word.slam = undefined;
                 }
             }
-            playSound("../src/rate.mp3");
+            playSound("../res/rate.mp3");
         } else {
             stopSound();
             switchToQuestions();
