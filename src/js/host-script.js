@@ -41,6 +41,7 @@ socket.on("get-grid", (r) => {
         grilleMots = grid.mots;
         fillGridDiv();
         grilleQuestions = grid.questions;
+        prepareDefinitionsTooltip();
     } else {
         grid1.mots = g.grilles[0];
         grid2.mots = g.grilles[1];
@@ -901,6 +902,28 @@ function openSoundboard() {
 function closeSoundboard() {
     document.getElementById("open-soundboard").style.removeProperty("display");
     document.getElementById("soundboard-content").style.display = "none";
+}
+
+
+
+
+
+
+function prepareDefinitionsTooltip() {
+    let defs = document.getElementById("defs");
+    defs.style.removeProperty("display");
+    let list = defs.children[1];
+    for (let q of grilleQuestions) {
+        let d = document.createElement('div');
+        d.innerHTML = q.letter.toUpperCase() + " " + q.text;
+        list.appendChild(d);
+    }
+    list.appendChild(document.createElement('h1'));
+    for (let q of grilleMots) {
+        let d = document.createElement('div');
+        d.innerHTML = q.word.toUpperCase() + " " + q.def;
+        list.appendChild(d);
+    }
 }
 
 

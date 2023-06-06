@@ -429,6 +429,44 @@ img.play:hover {
     height: 100%;
 }
 
+#defs {
+    position: absolute;
+    bottom: 1vh;
+    right: 1vh;
+    background-color: rgb(76 5 255);
+    padding: .5vh;
+    border-radius: 1.5vh;
+    transition: .3s;
+    z-index: 1;
+}
+
+#open-defs {
+    height: 6vh;
+    width: 6vh;
+    background-image: url("../res/list.png");
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+#defs-content {
+    display: grid;
+    grid-auto-flow: row;
+    grid-gap: 0;
+    width: fit-content;
+    cursor: pointer;
+}
+
+#defs-content > div {
+    color: white;
+}
+
+#defs-content > h1 {
+    height: 0;
+    width: 70%;
+    left: 15%;
+    border: 1px solid white;
+}
+
 
 
 
