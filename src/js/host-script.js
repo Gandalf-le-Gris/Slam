@@ -933,7 +933,7 @@ function prepareDefinitionsTooltip() {
     let defs = document.getElementById("defs");
     defs.style.removeProperty("display");
     let list = defs.children[1];
-    lists.innerHTML = "";
+    list.innerHTML = "";
     let i = 0;
     for (let q of grilleQuestions) {
         let d = document.createElement('div');
