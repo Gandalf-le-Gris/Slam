@@ -344,6 +344,7 @@ function nextQuestion() {
 }
 
 function isValidQuestion(n) {
+    console.log(n);
     let nLetters = 0;
     if (n < grilleQuestions.length)
         for (let i = 0; i < domGrille.length; i++)
