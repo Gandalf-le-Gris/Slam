@@ -300,8 +300,10 @@ function showCandidates() {
 }
 
 function nextQuestion() {
-    while (!isValidQuestion(currentQuestion))
+    do
         currentQuestion++;
+    while (!isValidQuestion(currentQuestion))
+        
     
     let nLetters = 0;
     if (currentQuestion < grilleQuestions.length)
