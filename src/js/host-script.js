@@ -346,7 +346,6 @@ function nextQuestion() {
 }
 
 function isValidQuestion(n) {
-    console.log(n);
     let nLetters = 0;
     if (n < grilleQuestions.length)
         for (let i = 0; i < domGrille.length; i++)
@@ -449,6 +448,7 @@ function showAnswer() {
             playSound("../res/correct.mp3");
             updateGrid();
             updateScores();
+            prepareDefinitionsTooltip();
         } else
             alert("Choisis d'abord un candidat !");
     }
@@ -596,6 +596,7 @@ function confirmWord() {
   
         clearTimeout(resetTO);
 
+        prepareDefinitionsTooltip();
         switchToQuestions();
     } else {
         let cell;
