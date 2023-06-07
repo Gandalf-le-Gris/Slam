@@ -300,27 +300,8 @@ function showCandidates() {
 }
 
 function nextQuestion() {
-    let loop = true;
-    while (loop) {
+    while (!isValidQuestion(currentQuestion))
         currentQuestion++;
-        loop = false;
-        if (currentQuestion < grilleQuestions.length) {
-            loop = true;
-            for (let word of grilleMots) {
-                for (let i = 0; i < word.word.length; i++) {
-                    if (domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
-                    && !domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found")) {
-                        let completeWord = true;
-                        for (let j = 0; j < word.word.length; j++) {
-                            completeWord = completeWord && (domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
-                                || domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].className.includes("found"));
-                        }
-                        loop = loop && completeWord;
-                    }
-                }
-            }
-        }
-    }
     
     let nLetters = 0;
     if (currentQuestion < grilleQuestions.length)
@@ -360,6 +341,33 @@ function nextQuestion() {
     }
 
     socket.emit("question-change", currentQuestion);
+}
+
+function isValidQuestion(n) {
+    let nLetters = 0;
+    if (n < grilleQuestions.length)
+        for (let i = 0; i < domGrille.length; i++)
+            for (let j = 0; j < domGrille[0].length; j++)
+                if (domGrille[i][j].innerHTML === grilleQuestions[n].letter && !domGrille[i][j].className.includes("found"))
+                    nLetters++;
+    if (nLetters == 0)
+        return false;
+
+    for (let word of grilleMots) {
+        for (let i = 0; i < word.word.length; i++) {
+            if (domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
+            && !domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found")) {
+                let completeWord = true;
+                for (let j = 0; j < word.word.length; j++) {
+                    completeWord = completeWord && (domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
+                        || domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].className.includes("found"));
+                }
+                if (!completeWord)
+                    return true;
+            }
+        }
+    }
+    return false;
 }
 
 function toggleAudio() {
@@ -921,18 +929,24 @@ function prepareDefinitionsTooltip() {
     let defs = document.getElementById("defs");
     defs.style.removeProperty("display");
     let list = defs.children[1];
+    let i = 0;
     for (let q of grilleQuestions) {
         let d = document.createElement('div');
         d.innerHTML = q.letter.toUpperCase() + " " + q.text;
         list.appendChild(d);
+        if (!isValidQuestion(i))
+            d.style.opacity = ".6";
+        i++;
     }
     list.appendChild(document.createElement('h1'));
-    let i = 0;
+    i = 0;
     for (let q of grilleMots) {
         i++;
         let d = document.createElement('div');
         d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
         list.appendChild(d);
+        if (d.found)
+            d.style.opacity = ".6";
     }
 }
 
