@@ -933,13 +933,14 @@ function prepareDefinitionsTooltip() {
     let defs = document.getElementById("defs");
     defs.style.removeProperty("display");
     let list = defs.children[1];
+    lists.innerHTML = "";
     let i = 0;
     for (let q of grilleQuestions) {
         let d = document.createElement('div');
         d.innerHTML = q.letter.toUpperCase() + " " + q.text;
         list.appendChild(d);
         if (!isValidQuestion(i))
-            d.style.opacity = ".6";
+            d.style.opacity = ".4";
         i++;
     }
     list.appendChild(document.createElement('h1'));
@@ -950,7 +951,7 @@ function prepareDefinitionsTooltip() {
         d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
         list.appendChild(d);
         if (d.found)
-            d.style.opacity = ".6";
+            d.style.opacity = ".4";
     }
 }
 
