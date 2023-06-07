@@ -950,7 +950,7 @@ function prepareDefinitionsTooltip() {
         let d = document.createElement('div');
         d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
         list.appendChild(d);
-        if (d.found)
+        if (q.found)
             d.style.opacity = ".4";
     }
 }
