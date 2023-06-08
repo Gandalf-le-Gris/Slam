@@ -302,7 +302,7 @@ function showCandidates() {
 function nextQuestion() {
     do
         currentQuestion++;
-    while (!isValidQuestion(currentQuestion))
+    while (currentQuestion < grilleQuestions.length && !isValidQuestion(currentQuestion))
         
     
     let nLetters = 0;
@@ -940,7 +940,7 @@ function prepareDefinitionsTooltip() {
         d.innerHTML = q.letter.toUpperCase() + " " + q.text;
         list.appendChild(d);
         if (!isValidQuestion(i))
-            d.style.opacity = ".4";
+            d.style.opacity = ".5";
         i++;
     }
     list.appendChild(document.createElement('h1'));
@@ -951,7 +951,7 @@ function prepareDefinitionsTooltip() {
         d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
         list.appendChild(d);
         if (q.found)
-            d.style.opacity = ".4";
+            d.style.opacity = ".5";
     }
 }
 
