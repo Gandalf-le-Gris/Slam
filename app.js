@@ -29,7 +29,7 @@ let rooms = [];
 let users = [];
 
 
-http.listen(port , () => {
+http.listen(port, () => {
     console.log("HTTP listening on port " + port + ".");
 });
 
@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
             p = user.p;
             r = user.r;
             users.splice(i, 1);
-            users.push({id: socket.id, p: p, r: r});
+            users.push({ id: socket.id, p: p, r: r });
             socket.join(p.roomId);
         }
     });
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
         console.log("Starting hosting of room " + player.roomId);
         p = player;
         r = rooms[rooms.findIndex(e => e.id === player.roomId)];
-        users.push({id: socket.id, p: p, r: r});
+        users.push({ id: socket.id, p: p, r: r });
         r.players.push(player);
         r.buzzes = [];
         r.options = { mode: "default-mode", point: false };
@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
         console.log("New player " + player.username + " in room " + player.roomId);
         p = player;
         r = rooms.find((e) => { return p.roomId === e.id; });
-        users.push({id: socket.id, p: p, r: r});
+        users.push({ id: socket.id, p: p, r: r });
         if (!r) {
             socket.disconnect();
         } else {
@@ -132,11 +132,11 @@ io.on('connection', (socket) => {
     socket.on("dom-grid-change", (dom, n) => {
         if (p.host) {
             if (!n)
-              r.dom = dom;
+                r.dom = dom;
             else if (n == 1)
-              r.dom1 = dom;
+                r.dom1 = dom;
             else if (n == 2)
-              r.dom2 = dom;
+                r.dom2 = dom;
             io.to(p.roomId).emit("dom-grid-change", dom, n);
         }
     });
@@ -189,12 +189,12 @@ io.on('connection', (socket) => {
     socket.on("request-grid", () => {
         io.to(socket.id).emit("get-grid", r);
     });
-  
+
     socket.on("start-grid", (n) => {
         if (p.host)
             io.to(p.roomId).emit("start-grid", n);
     });
-  
+
     socket.on("stop-timer", (time) => {
         if (p.host)
             io.to(p.roomId).emit("stop-timer", time);
@@ -224,7 +224,7 @@ app.post('/create-room', (req, res) => {
 
 app.get('/create/:room', (req, res) => {
     const room = req.params.room;
-    res.render('create-room.ejs', {room: room});
+    res.render('create-room.ejs', { room: room });
 });
 
 app.post('/create/post-grid', function requestHandler(req, res) {
