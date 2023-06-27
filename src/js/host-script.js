@@ -204,6 +204,7 @@ function fillGridDiv() {
         }
     }
     let cell;
+    let points = 0;
     for (let word of grilleMots) {
         cell = domGrille[word.y + !word.vert][word.x + word.vert];
         cell.classList.add("number-cell");
@@ -220,8 +221,10 @@ function fillGridDiv() {
             cell.classList.add("used-cell");
             cell.innerHTML = w[i];
         }
+        points += w.length;
     }
-  
+    
+    document.getElementsById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
     socket.emit("dom-grid-change", document.getElementById("grille").innerHTML, 0);
 }
 
@@ -553,8 +556,10 @@ function confirmWord() {
         word.found = true;
 
         let ind = (currentCandidate + 1).toString();
+        let points = 0;
         for (let word of grilleMots) {
             if (!word.found) {
+                points += word.word.length;
                 let found = true;
                 for (let i = 0; i < word.word.length; i++) {
                     if (!domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found"))
@@ -565,6 +570,8 @@ function confirmWord() {
                     document.getElementById("score" + ind).innerHTML = (parseInt(document.getElementById("score" + ind).innerHTML) + word.word.length).toString();
             }
         }
+        if (!slam)
+            document.getElementsById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
 
         let end = true;
         for (let word of grilleMots)
