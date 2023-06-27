@@ -224,7 +224,7 @@ function fillGridDiv() {
         points += w.length;
     }
     
-    document.getElementsById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
+    document.getElementById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
     socket.emit("dom-grid-change", document.getElementById("grille").innerHTML, 0);
 }
 
@@ -571,7 +571,7 @@ function confirmWord() {
             }
         }
         if (!slam)
-            document.getElementsById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
+            document.getElementById("slam-button").innerHTML = "Slam <sub>(" + points + " points)</sub>";
 
         let end = true;
         for (let word of grilleMots)
