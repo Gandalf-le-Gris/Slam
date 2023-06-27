@@ -41,6 +41,7 @@ socket.on("get-grid", (r) => {
         grilleMots = grid.mots;
         fillGridDiv();
         grilleQuestions = grid.questions;
+        prepareDefinitionsTooltip();
     } else {
         grid1.mots = g.grilles[0];
         grid2.mots = g.grilles[1];
@@ -299,27 +300,10 @@ function showCandidates() {
 }
 
 function nextQuestion() {
-    let loop = true;
-    while (loop) {
+    do
         currentQuestion++;
-        loop = false;
-        if (currentQuestion < grilleQuestions.length) {
-            loop = true;
-            for (let word of grilleMots) {
-                for (let i = 0; i < word.word.length; i++) {
-                    if (domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
-                    && !domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found")) {
-                        let completeWord = true;
-                        for (let j = 0; j < word.word.length; j++) {
-                            completeWord = completeWord && (domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].innerHTML === grilleQuestions[currentQuestion].letter
-                                || domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].className.includes("found"));
-                        }
-                        loop = loop && completeWord;
-                    }
-                }
-            }
-        }
-    }
+    while (currentQuestion < grilleQuestions.length && !isValidQuestion(currentQuestion))
+        
     
     let nLetters = 0;
     if (currentQuestion < grilleQuestions.length)
@@ -359,6 +343,33 @@ function nextQuestion() {
     }
 
     socket.emit("question-change", currentQuestion);
+}
+
+function isValidQuestion(n) {
+    let nLetters = 0;
+    if (n < grilleQuestions.length)
+        for (let i = 0; i < domGrille.length; i++)
+            for (let j = 0; j < domGrille[0].length; j++)
+                if (domGrille[i][j].innerHTML === grilleQuestions[n].letter && !domGrille[i][j].className.includes("found"))
+                    nLetters++;
+    if (nLetters == 0)
+        return false;
+
+    for (let word of grilleMots) {
+        for (let i = 0; i < word.word.length; i++) {
+            if (domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].innerHTML === grilleQuestions[n].letter
+            && !domGrille[word.y + 1 + i * word.vert][word.x + 1 + i * (!word.vert)].className.includes("found")) {
+                let completeWord = true;
+                for (let j = 0; j < word.word.length; j++) {
+                    completeWord = completeWord && (domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].innerHTML === grilleQuestions[n].letter
+                        || domGrille[word.y + 1 + j * word.vert][word.x + 1 + j * (!word.vert)].className.includes("found"));
+                }
+                if (!completeWord)
+                    return true;
+            }
+        }
+    }
+    return false;
 }
 
 function toggleAudio() {
@@ -434,8 +445,10 @@ function showAnswer() {
                 }
             }
 
+            playSound("../res/correct.mp3");
             updateGrid();
             updateScores();
+            prepareDefinitionsTooltip();
         } else
             alert("Choisis d'abord un candidat !");
     }
@@ -477,7 +490,7 @@ function displayDefinition(n, g) {
             if (!slam && word.def) {
                 playSound("../res/reflexion.mp3");
                 resetTO = setTimeout(() => {
-                    document.getElementById("buzz").play();
+                    playSound("../res/buzz.mp3");
                     switchToQuestions();
                 }, 12000);
             }
@@ -571,11 +584,19 @@ function confirmWord() {
             }
         }
 
-        if (end)
+        if (end) {
+            if (!slam)
+                playSound("../res/complet.mp3");
+            else
+                playSound("../res/correct.mp3");
             socket.emit("game-end");
+        } else {
+            playSound("../res/correct.mp3");
+        }
   
         clearTimeout(resetTO);
 
+        prepareDefinitionsTooltip();
         switchToQuestions();
     } else {
         let cell;
@@ -675,7 +696,10 @@ function wrongAnswer() {
                     word.slam = undefined;
                 }
             }
+            playSound("../res/rate.mp3");
+            switchToQuestions();
         } else {
+            stopSound();
             switchToQuestions();
             clearTimeout(resetTO);
         }
@@ -879,7 +903,7 @@ function playSound(src) {
 
 function stopSound() {
     document.getElementById("soundboard-player").pause();
-    socket.emit("soundboard-stop");
+    socket.emit("stop-soundboard");
 }
 
 function openSoundboard() {
@@ -890,6 +914,45 @@ function openSoundboard() {
 function closeSoundboard() {
     document.getElementById("open-soundboard").style.removeProperty("display");
     document.getElementById("soundboard-content").style.display = "none";
+}
+
+
+
+
+function openDefinitions() {
+    document.getElementById("open-defs").style.display = "none";
+    document.getElementById("defs-content").style.removeProperty("display");
+}
+
+function closeDefinitions() {
+    document.getElementById("open-defs").style.removeProperty("display");
+    document.getElementById("defs-content").style.display = "none";
+}
+
+function prepareDefinitionsTooltip() {
+    let defs = document.getElementById("defs");
+    defs.style.removeProperty("display");
+    let list = defs.children[1];
+    list.innerHTML = "";
+    let i = 0;
+    for (let q of grilleQuestions) {
+        let d = document.createElement('div');
+        d.innerHTML = q.letter.toUpperCase() + " " + q.text;
+        list.appendChild(d);
+        if (!isValidQuestion(i))
+            d.style.opacity = ".5";
+        i++;
+    }
+    list.appendChild(document.createElement('h1'));
+    i = 0;
+    for (let q of grilleMots) {
+        i++;
+        let d = document.createElement('div');
+        d.innerHTML = i + ". " + q.word.toUpperCase() + " : " + q.def;
+        list.appendChild(d);
+        if (q.found)
+            d.style.opacity = ".5";
+    }
 }
 
 

@@ -92,24 +92,31 @@
                 <img src="/res/slam-logo.png"/>
                 2
             </div>
-            <div onclick="playSound('/res/capri.mp3')" title="C'est fini !">
+            <div onclick="playSound('/res/capri.mp3')" title="C'est fini !" style="filter: invert()">
                 <img src="/res/herve-villard.png"/>
             </div>
-            <div onclick="playSound('/res/berceuse.mp3')" title="Berceuse">
+            <div onclick="playSound('/res/berceuse.mp3')" title="Berceuse" style="filter: invert()">
                 <img src="/res/sleep.png"/>
             </div>
-            <div onclick="playSound('/res/clavier.mp3')" title="Clavier">
+            <div onclick="playSound('/res/clavier.mp3')" title="Clavier" style="filter: invert()">
                 <img src="/res/clavier.png"/>
             </div>
-            <div onclick="playSound('/res/casse-tete.mp3')" title="Casse-tête">
+            <div onclick="playSound('/res/casse-tete.mp3')" title="Casse-tête" style="filter: invert()">
                 <img src="/res/casse-tete.png"/>
             </div>
-            <div onclick="stopSound()">
+            <div onclick="stopSound()" title="Stop" style="filter: invert()">
                 <img src="/res/pause.png"/>
             </div>
-            <div onclick="closeSoundboard()">
+            <div onclick="closeSoundboard()" title="Fermer" style="filter: invert()">
                 <img src="/res/hide.png"/>
             </div>
+        </div>
+    </div>
+
+    <div id="defs" style="display: none">
+        <div id="open-defs" onclick="openDefinitions()"></div>
+        <div id="defs-content" onclick="closeDefinitions()" style="display: none">
+        
         </div>
     </div>
 
