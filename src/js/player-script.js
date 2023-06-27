@@ -550,6 +550,10 @@ socket.on("soundboard-get", (src) => {
   audio.play();
 });
 
+socket.on("soundboard-stop", () => {
+  document.getElementById("soundboard-player").pause();
+});
+
 
 
 

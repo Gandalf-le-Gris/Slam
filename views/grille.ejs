@@ -85,20 +85,27 @@
     <div id="soundboard">
         <div id="open-soundboard" onclick="openSoundboard()"></div>
         <div id="soundboard-content" style="display: none">
-            <div onclick="playSound('/res/generique.mp3')">
+            <div onclick="playSound('/res/generique.mp3')" title="Générique long">
                 <img src="/res/slam-logo.png"/>
             </div>
-            <div onclick="playSound('/res/capri.mp3')">
+            <div onclick="playSound('/res/generique-court.mp3')" title="Générique court">
+                <img src="/res/slam-logo.png"/>
+                2
+            </div>
+            <div onclick="playSound('/res/capri.mp3')" title="C'est fini !">
                 <img src="/res/herve-villard.png"/>
             </div>
-            <div onclick="playSound('/res/berceuse.mp3')">
+            <div onclick="playSound('/res/berceuse.mp3')" title="Berceuse">
                 <img src="/res/sleep.png"/>
             </div>
-            <div onclick="playSound('/res/clavier.mp3')">
+            <div onclick="playSound('/res/clavier.mp3')" title="Clavier">
                 <img src="/res/clavier.png"/>
             </div>
-            <div onclick="playSound('/res/casse-tete.mp3')">
+            <div onclick="playSound('/res/casse-tete.mp3')" title="Casse-tête">
                 <img src="/res/casse-tete.png"/>
+            </div>
+            <div onclick="stopSound()">
+                <img src="/res/pause.png"/>
             </div>
             <div onclick="closeSoundboard()">
                 <img src="/res/hide.png"/>

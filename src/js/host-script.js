@@ -877,6 +877,11 @@ function playSound(src) {
     socket.emit("soundboard-send", src);
 }
 
+function stopSound() {
+    document.getElementById("soundboard-player").pause();
+    socket.emit("soundboard-stop");
+}
+
 function openSoundboard() {
     document.getElementById("open-soundboard").style.display = "none";
     document.getElementById("soundboard-content").style.removeProperty("display");

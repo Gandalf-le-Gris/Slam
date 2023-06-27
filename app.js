@@ -204,6 +204,11 @@ io.on('connection', (socket) => {
         if (p.host)
             io.to(p.roomId).emit("soundboard-get", src);
     });
+
+    socket.on("soundboard-stop", () => {
+        if (p.host)
+            io.to(p.roomId).emit("soundboard-stop");
+    });
 });
 
 app.post('/create-room', (req, res) => {
