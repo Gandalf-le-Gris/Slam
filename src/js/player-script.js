@@ -289,7 +289,7 @@ socket.on("game-end", (r) => {
   winDiv.appendChild(w);
   let l = document.createElement("div");
   l.id = "loser";
-  l.innerHTML = loser + " est éliminé.";
+  l.innerHTML = loser + " est éliminé(e).";
   winDiv.appendChild(l);
 
   setTimeout(() => {
