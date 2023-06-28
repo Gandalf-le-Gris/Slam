@@ -141,10 +141,13 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on("score-change", (scores) => {
+    socket.on("score-change", (scores, end) => {
         if (p.host) {
             r.scores = scores;
             io.to(p.roomId).emit("score-change", scores);
+
+            if (end)
+                io.to(p.roomId).emit("game-end", r);
         }
     });
 

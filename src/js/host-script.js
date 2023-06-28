@@ -461,11 +461,11 @@ function updateGrid(n) {
     socket.emit("dom-grid-change", !n ? document.getElementById("grille").innerHTML : (n == 1 ? document.getElementById("grille1").innerHTML : document.getElementById("grille2").innerHTML), n);
 }
 
-function updateScores() {
+function updateScores(end) {
     let scores = [];
     for (let i = 1; i <= 3; i++)
         scores.push(document.getElementById("score" + i).innerHTML);
-    socket.emit("score-change", scores);
+    socket.emit("score-change", scores, end);
 }
 
 function displayDefinition(n, g) {
@@ -505,7 +505,7 @@ function displayDefinition(n, g) {
         alert("Choisis d'abord un candidat !");
 }
 
-function switchToQuestions() {
+function switchToQuestions(end) {
     if (!slam) {
         document.getElementById("questions").style.visibility = "visible";
         document.getElementById("confirmAnswer").style.visibility = "visible";
@@ -538,7 +538,7 @@ function switchToQuestions() {
 
     socket.emit("question-change", currentQuestion);
     if (!finale) {
-      updateScores();
+      updateScores(end);
       updateGrid();
     } else if (currentGrid > 0) {
       updateGrid(currentGrid);
@@ -596,7 +596,6 @@ function confirmWord() {
                 playSound("../res/complet.mp3");
             else
                 playSound("../res/correct.mp3");
-            socket.emit("game-end");
         } else {
             playSound("../res/correct.mp3");
         }
@@ -604,7 +603,7 @@ function confirmWord() {
         clearTimeout(resetTO);
 
         prepareDefinitionsTooltip();
-        switchToQuestions();
+        switchToQuestions(end);
     } else {
         let cell;
         let word = (currentGrid == 1 ? grid1.mots : grid2.mots)[currentDef];
