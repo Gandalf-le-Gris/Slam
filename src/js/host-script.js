@@ -596,6 +596,8 @@ function confirmWord() {
                         found = false;
                 }
                 word.found = found;
+                if (found)
+                    word.autofound = true
                 if (found && !slam)
                     document.getElementById("score" + ind).innerHTML = (parseInt(document.getElementById("score" + ind).innerHTML) + word.word.length).toString();
             }
@@ -987,7 +989,7 @@ function prepareDefinitionsTooltip() {
         if (q.found)
             d.style.opacity = ".5";
         if (q.autofound)
-            d.style.color = "orange";
+            d.style.fontStyle = "italic";
     }
 }
 
