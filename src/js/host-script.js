@@ -468,9 +468,10 @@ function showAnswer() {
                             found = false;
                     }
                     word.found = found;
-                    if (found)
+                    if (found) {
+                        word.autofound = true
                         document.getElementById("score" + ind).innerHTML = (parseInt(document.getElementById("score" + ind).innerHTML) + word.word.length).toString();
-                    else if (word.word.includes(grilleQuestions[currentQuestion].letter)) {
+                    } else if (word.word.includes(grilleQuestions[currentQuestion].letter)) {
                         cell = domGrille[word.y + !word.vert][word.x + word.vert];
                         cell.classList.add("number-cell");
                     }
@@ -784,8 +785,6 @@ function selectLetter(l) {
       }
     }
 
-    let cell;
-
     for (let word of grid.mots) {
       if (!word.found) {
         let found = true;
@@ -987,6 +986,8 @@ function prepareDefinitionsTooltip() {
         list.appendChild(d);
         if (q.found)
             d.style.opacity = ".5";
+        if (q.autofound)
+            d.style.color = "orange";
     }
 }
 
