@@ -52,6 +52,35 @@ socket.on("get-grid", (r) => {
         fillFinalGridDiv();
         finale = true;
     }
+
+    window.onkeydown = (e) => {
+        if (e) {
+            switch (e.keyCode) {
+                case 76: // L
+                    toggleLockAction();
+                    break;
+                case 78: // N
+                    nextQuestion();
+                    break;
+                case 80: // P
+                    let question = grilleQuestions[currentQuestion];
+                    if (question) {
+                        if (question.image)
+                            toggleImage();
+                        else if (question.audio)
+                            toggleAudio();
+                    }
+                    break;
+                case 82: // R
+                    resetBuzzersAction();
+                    break;
+                case 83: // S
+                    stopSound();
+                    break;
+                default:
+            }
+        }
+    }
 });
 
 socket.on("unlock-buzz",()=>{
