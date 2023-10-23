@@ -105,9 +105,9 @@ function resetBuzzersAction() {
 
 function toggleLockAction() {
     let options = document.getElementsByClassName("options")[0];
-    if (options && options.lastElementChild.innerHTML == "Bloquer") {
+    if (options && options.children[1].innerHTML == "Bloquer") {
         socket.emit("lock-buzz");
-    } else if (options && options.lastElementChild.innerHTML != "Bloquer") {
+    } else if (options && options.children[1].innerHTML != "Bloquer") {
         socket.emit("unlock-buzz");
     }
 }

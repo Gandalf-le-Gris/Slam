@@ -228,7 +228,7 @@ img.play:hover {
     .buzzers > .options {
         display: grid;
         grid-template-columns: 8vw 8vw 8vh;
-        column-gap: 2vw;
+        column-gap: 1vw;
         height: 8vh;
     }
 
