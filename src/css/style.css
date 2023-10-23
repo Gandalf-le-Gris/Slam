@@ -227,9 +227,13 @@ img.play:hover {
 
     .buzzers > .options {
         display: grid;
-        grid-template-columns: 8vw 8vw;
+        grid-template-columns: 8vw 8vw 8vh;
         column-gap: 2vw;
         height: 8vh;
+    }
+
+    .buzzers > .options > *:last-child {
+        border-radius: 100%;
     }
 
 .buzz-name {

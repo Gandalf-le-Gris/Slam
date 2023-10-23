@@ -1,8 +1,10 @@
-Ajout du buzzer de slam
-Edition accélérée des grilles
+!! Ajout du buzzer de slam
+!! Edition accélérée des grilles -> OK
 Harmonisation de la palette graphique
 Alignement des thèmes de finale
-Occultation des thèmes de finale
+! Occultation des thèmes de finale
 Indicateur du nombre de lettres
 Copier-coller du lien d'invitation
 Mode streamer
+Chargement des grilles à l'édition
+! Bug Willy Rovelli
