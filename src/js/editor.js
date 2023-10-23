@@ -503,24 +503,7 @@ let reader = checkFileAPI();
                     console.log(data);
                     if (!data.finale) {
                         toManche();
-                        for (let row of domGrille) {
-                            for (let cell of row) {
-                                cell.classList.remove("letter");
-                                cell.parentElement.removeAttribute("data-number");
-                                cell.value = '';
-                            }
-                        }
-                        defs = [];
-                        for (let word of data.mots) {
-                            defs.push({word: word.word, def: word.def});
-                            let i = 0;
-                            for (let l of word.word) {
-                                let cell = domGrille[word.y + 1 + word.vert * i][word.x + 1 + (!word.vert) * i];
-                                cell.value = l.toUpperCase();
-                                cell.classList.add("letter");
-                                i++;
-                            }
-                        }
+                        fillGridFromImport(data.mots, domGrille, false);
                         updateWords();
 
                         let questions = document.getElementById("questions");
@@ -539,6 +522,11 @@ let reader = checkFileAPI();
                             }
                         }
                         updateQuestions();
+                    } else {
+                        toFinale();
+                        fillGridFromImport(data.grilles[0], domGrille1, true);
+                        fillGridFromImport(data.grilles[1], domGrille2, true);
+                        compileFinalWords();
                     }
                 }
             } catch (e) {
@@ -556,6 +544,29 @@ function checkFileAPI() {
     } else {
         alert('The File APIs are not fully supported by your browser. Fallback required.');
         return;
+    }
+}
+
+function fillGridFromImport(words, dom, isFinale) {
+    for (let row of dom) {
+        for (let cell of row) {
+            cell.classList.remove("letter");
+            cell.parentElement.removeAttribute("data-number");
+            cell.value = '';
+        }
+    }
+    if (!isFinale)
+        defs = [];
+    for (let word of words) {
+        if (!isFinale)
+            defs.push({word: word.word, def: word.def});
+        let i = 0;
+        for (let l of word.word) {
+            let cell = dom[word.y + 1 + word.vert * i][word.x + 1 + (!word.vert) * i];
+            cell.value = l.toUpperCase();
+            cell.classList.add("letter");
+            i++;
+        }
     }
 }
 
