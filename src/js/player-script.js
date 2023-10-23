@@ -86,10 +86,23 @@ socket.on("player-init", (room, p) => {
     let state = document.getElementsByClassName("buzzer-state")[0];
     state.innerHTML = "Fermé";
     state.classList.remove("unlocked");
+    state.classList.remove("slam-open");
     state.classList.add("locked");
     let buzzer = document.getElementsByClassName("buzzer")[0];
     buzzer.classList.add("locked");
+    buzzer.classList.remove("slam-open");
     buzzer.innerHTML = "🔒";
+  }
+  if (room.slamOpen && room.slam < 0) {
+    let state = document.getElementsByClassName("buzzer-state")[0];
+    state.innerHTML = "Slam ouvert";
+    state.classList.remove("unlocked");
+    state.classList.add("slam-open");
+    state.classList.remove("locked");
+    let buzzer = document.getElementsByClassName("buzzer")[0];
+    buzzer.classList.remove("locked");
+    buzzer.classList.add("slam-open");
+    buzzer.innerHTML = "SLAM";
   }
 
   window.onkeydown = (e) => {

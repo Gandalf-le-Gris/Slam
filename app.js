@@ -95,6 +95,7 @@ io.on('connection', (socket) => {
     socket.on("unlock-buzz", () => {
         console.log("Unlocking room " + r.id);
         r.locked = false;
+        r.slamOpen = false;
         if (p.host)
             io.to(p.roomId).emit("unlock-buzz");
     });
@@ -102,6 +103,7 @@ io.on('connection', (socket) => {
     socket.on("lock-buzz", () => {
         console.log("Locking room " + r.id);
         r.locked = true;
+        r.slamOpen = false;
         if (p.host)
             io.to(p.roomId).emit("lock-buzz");
     });
@@ -214,6 +216,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on("open-slam", () => {
+        r.locked = false;
+        r.slamOpen = true;
         if (p.host)
             io.to(p.roomId).emit("unlock-slam");
     });
