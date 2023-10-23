@@ -146,6 +146,7 @@ function resetBuzzers() {
     if (buzzer) {
         buzzer.classList.remove("buzzed");
         buzzer.classList.remove("locked");
+        buzzer.classList.remove("slam-open");
         buzzer.innerHTML = "BUZZ";
     }
     unlockBuzzer();
