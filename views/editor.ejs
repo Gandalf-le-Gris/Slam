@@ -16,7 +16,8 @@
     </div>
 
     <div id="import">
-        <button>Importer</button>
+        <button onclick="importGrid()">Importer</button>
+        <input id="file-select" type="file" onchange="sendFile()" style="display: none;">
     </div>
   
     <div id="container1" class="container">

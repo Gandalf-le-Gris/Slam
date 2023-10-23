@@ -486,6 +486,42 @@ function toFinale() {
 
 
 
+function importGrid() {
+    document.getElementById('file-select').click()
+}
+
+function sendFile() {
+let reader = checkFileAPI();
+    if (reader) {
+        reader.onload = (evt) => {
+            try {
+                let grid = JSON.parse(evt.target.result);
+                if ((!grid.questions || !grid.mots) && !grid.finale) {
+                    alert("Impossible de lire le contenu de cette grille.");
+                } else {
+                    console.log(evt.target.result)
+                }
+            } catch (e) {
+                alert("Impossible de lire le contenu de cette grille.");
+            }
+        };
+        reader.readAsText(document.getElementById("file-select").files[0], 'UTF-8');
+    }
+}
+
+function checkFileAPI() {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        let reader = new FileReader();
+        return reader; 
+    } else {
+        alert('The File APIs are not fully supported by your browser. Fallback required.');
+        return;
+    }
+}
+
+
+
+
 
 function goToHome() {
   let form = document.createElement("form");
