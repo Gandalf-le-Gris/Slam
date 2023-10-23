@@ -1034,13 +1034,14 @@ function prepareDefinitionsTooltip() {
 
 
 function copyRoomId(div) {
-    navigator.clipboard.writeText(room.id).then(() => {
-        div.innerHTML = "Copié !";
-        setTimeout(() => div.innerHTML = room.id, 2000);
-    }, () => {
-        div.innerHTML = "Echec...";
-        setTimeout(() => div.innerHTML = room.id, 2000);
-    });
+    let input = document.createElement('input');
+    input.setAttribute('value', room.id);
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    div.innerHTML = "Copié !";
+    setTimeout(() => div.innerHTML = room.id, 2000);
 }
 
 function goToHome() {
