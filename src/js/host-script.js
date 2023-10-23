@@ -91,6 +91,10 @@ socket.on("lock-buzz",()=>{
     lockBuzzer();
 });
 
+socket.on("unlock-slam",()=>{
+    openSlam();
+});
+
 socket.on("player-buzz",(buzzes)=>{
     addBuzzed(buzzes);
 });
@@ -109,6 +113,16 @@ function toggleLockAction() {
         socket.emit("lock-buzz");
     } else if (options && options.children[1].innerHTML != "Bloquer") {
         socket.emit("unlock-buzz");
+    }
+}
+
+function toggleSlamBuzzer() {
+    let state = document.getElementsByClassName("buzzer-state")[0];
+    if (state) {
+        if (state.classList.contains("slam-open"))
+            socket.emit("lock-buzz");
+        else
+            socket.emit("open-slam");
     }
 }
 
@@ -141,10 +155,12 @@ function lockBuzzer() {
     let state = document.getElementsByClassName("buzzer-state")[0];
     state.innerHTML = "Fermé";
     state.classList.remove("unlocked");
+    state.classList.remove("slam-open");
     state.classList.add("locked");
     let buzzer = document.getElementsByClassName("buzzer")[0];
     if (buzzer) {
         buzzer.classList.add("locked");
+        buzzer.classList.remove("slam-open");
         buzzer.innerHTML = "🔒";
     }
     let options = document.getElementsByClassName("options")[0];
@@ -157,11 +173,31 @@ function unlockBuzzer() {
     let state = document.getElementsByClassName("buzzer-state")[0];
     state.innerHTML = "Ouvert";
     state.classList.add("unlocked");
+    state.classList.remove("slam-open");
     state.classList.remove("locked");
     let buzzer = document.getElementsByClassName("buzzer")[0];
     if (buzzer) {
         buzzer.classList.remove("locked");
+        buzzer.classList.remove("slam-open");
         buzzer.innerHTML = "BUZZ";
+    }
+    let options = document.getElementsByClassName("options")[0];
+    if (options) {
+        options.children[1].innerHTML = "Bloquer";
+    }
+}
+
+function openSlam() {
+    let state = document.getElementsByClassName("buzzer-state")[0];
+    state.innerHTML = "Slam ouvert";
+    state.classList.remove("unlocked");
+    state.classList.add("slam-open");
+    state.classList.remove("locked");
+    let buzzer = document.getElementsByClassName("buzzer")[0];
+    if (buzzer) {
+        buzzer.classList.remove("locked");
+        buzzer.classList.add("slam-open");
+        buzzer.innerHTML = "SLAM";
     }
     let options = document.getElementsByClassName("options")[0];
     if (options) {

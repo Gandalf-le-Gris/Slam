@@ -212,6 +212,11 @@ io.on('connection', (socket) => {
         if (p.host)
             io.to(p.roomId).emit("stop-soundboard");
     });
+
+    socket.on("open-slam", () => {
+        if (p.host)
+            io.to(p.roomId).emit("unlock-slam");
+    });
 });
 
 app.post('/create-room', (req, res) => {

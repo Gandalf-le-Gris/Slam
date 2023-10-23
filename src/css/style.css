@@ -225,6 +225,10 @@ img.play:hover {
             background-color: #aaffaa;
         }
 
+        .buzzers > .buzzer-state.slam-open {
+            background-color: #ffccaa;
+        }
+
     .buzzers > .options {
         display: grid;
         grid-template-columns: 8vw 8vw 8vh;

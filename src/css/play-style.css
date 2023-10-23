@@ -238,6 +238,13 @@ img.play:hover {
         cursor: default;
     }
 
+    .buzzer.slam-open {
+        background-color: #ffaaaa;
+        transform: none;
+        box-shadow: none;
+        cursor: default;
+    }
+
     .buzzers > .buzzer-state {
         border-radius: 1vw;
         background-color: lightgray;
