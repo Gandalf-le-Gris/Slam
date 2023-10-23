@@ -483,8 +483,6 @@ function toggleFinal() {
   document.getElementById("finale-grids").style.removeProperty("display");
   document.getElementById("themes").style.removeProperty("display");
   document.getElementById("time").style.removeProperty("display");
-  document.getElementById("theme1").innerHTML = theme1;
-  document.getElementById("theme2").innerHTML = theme2;
 }
 
 function fillFinalGridDiv() {
@@ -545,15 +543,19 @@ function fillFinalGridDiv() {
 function selectTheme(n) {
   if (n == 1) {
     document.getElementById("grille1").style.setProperty("opacity", "1");
+    document.getElementById("grille1").classList.remove("cachee");
     document.getElementById("theme1").style.setProperty("opacity", "1");
     document.getElementById("grille2").style.setProperty("opacity", ".5");
     document.getElementById("theme2").style.setProperty("opacity", ".5");
+    document.getElementById("theme1").innerHTML = theme1;
     timerTO = setTimeout(decreaseTimer, 1000);
   } else if (n == 2) {
     document.getElementById("grille2").style.setProperty("opacity", "1");
+    document.getElementById("grille2").classList.remove("cachee");
     document.getElementById("theme2").style.setProperty("opacity", "1");
     document.getElementById("grille1").style.setProperty("opacity", ".5");
     document.getElementById("theme1").style.setProperty("opacity", ".5");
+    document.getElementById("theme2").innerHTML = theme2;
     timerTO = setTimeout(decreaseTimer, 1000);
   }
 }
