@@ -500,7 +500,26 @@ let reader = checkFileAPI();
                     alert("Impossible de lire le contenu de cette grille.");
                 } else {
                     let data = JSON.parse(evt.target.result);
-                    console.log(data);
+                    if (!data.finale) {
+                        toManche();
+                        for (let row of domGrille) {
+                            for (let cell of row) {
+                                cell.classList.remove("letter");
+                                cell.parentElement.removeAttribute("data-number");
+                                cell.value = '';
+                            }
+                        }
+                        for (let word of data.mots) {
+                            let i = 0;
+                            for (let l of word.word) {
+                                let cell = domGrille[word.y + 1 + word.vert * i][word.x + 1 + (!word.vert) * i];
+                                cell.value = l;
+                                cell.classList.add("letter");
+                                i++;
+                            }
+                        }
+                        updateWords();
+                    }
                 }
             } catch (e) {
                 alert("Impossible de lire le contenu de cette grille.");
