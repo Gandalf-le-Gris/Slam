@@ -386,6 +386,14 @@ function adjustLetterCase(input) {
         else
             input.value = "";
     }
+
+    let possibleLetters = document.getElementsByClassName("possible-letter");
+    for (cell of possibleLetters) {
+        if (possibleLetters.findIndex(e => e !== cell && e.value === cell.value))
+            cell.style.color = "red";
+        else
+            cell.style.removeProperty("color");
+    }
 }
 
 function compileJSON() {
