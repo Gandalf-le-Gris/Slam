@@ -538,6 +538,7 @@ let reader = checkFileAPI();
                                 fields[3].value = q.audio;
                             }
                         }
+                        updateQuestions();
                     }
                 }
             } catch (e) {
