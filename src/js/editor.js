@@ -526,11 +526,11 @@ let reader = checkFileAPI();
                         toFinale();
                         fillGridFromImport(data.grilles[0], domGrille1, true);
                         fillGridFromImport(data.grilles[1], domGrille2, true);
-                        document.getElementById("theme1").innerHTML = data.themes[0];
-                        document.getElementById("theme2").innerHTML = data.themes[1];
+                        document.getElementById("theme1").value = data.themes[0];
+                        document.getElementById("theme2").value = data.themes[1];
                         let cells = document.getElementById("finale-letters").children;
                         for (let i = 0; i < Math.min(cells.length, data.lettres.length); i++)
-                            cells[i].innerHTML = data.lettres[i].toUpperCase();
+                            cells[i].value = data.lettres[i].toUpperCase();
                     }
                 }
             } catch (e) {
