@@ -361,8 +361,14 @@ button {
     top: 0;
     right: 3vw;
     height: 10vh;
+    display: flex;
 }
 
     #import > * {
         margin: auto;
+        transform: scale(.7);
     }
+
+        #import > *:hover {
+            transform: scale(.8);
+        }
