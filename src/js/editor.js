@@ -387,7 +387,7 @@ function adjustLetterCase(input) {
             input.value = "";
     }
 
-    let possibleLetters = document.getElementsByClassName("possible-letter");
+    let possibleLetters = Array.from(document.getElementsByClassName("possible-letter"));
     for (cell of possibleLetters) {
         if (possibleLetters.findIndex(e => e !== cell && e.value === cell.value))
             cell.style.color = "red";
