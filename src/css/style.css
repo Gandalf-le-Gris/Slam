@@ -153,7 +153,7 @@ button:hover {
     border-radius: 1vw;
     line-height: 8vh;
     transition: transform .2s;
-    color: red;
+    color: #ff4444;
 }
 
 img.play {
@@ -291,12 +291,12 @@ img.play:hover {
 }
 
 .slam-bg > .grille {
-    background-color: red;
-    color: red;
+    background-color: #ff4444;
+    color: #ff4444;
 }
 
 .slam-bg > .question-section {
-    background-color: red;
+    background-color: #ff4444;
 }
 
 .cyril {

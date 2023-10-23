@@ -5,7 +5,7 @@ Alignement des thèmes de finale -> OK
 ! Occultation des thèmes de finale -> OK
 - Indicateur du nombre de lettres
 Copier-coller du lien d'invitation -> OK
-Chargement des grilles à l'édition
+Chargement des grilles à l'édition -> OK
 ! Bug Willy Rovelli -> OK
 Flèches sur la 2e grille de finale -> OK
 - Mode streamer
