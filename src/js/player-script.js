@@ -599,13 +599,13 @@ socket.on("stop-soundboard", () => {
 
 function copyRoomId(div) {
   let input = document.createElement('input');
-  input.setAttribute('value', room.id);
+  input.setAttribute('value', room);
   document.body.appendChild(input);
   input.select();
   document.execCommand('copy');
   document.body.removeChild(input);
   div.innerHTML = "Copié !";
-  setTimeout(() => div.innerHTML = room.id, 2000);
+  setTimeout(() => div.innerHTML = room, 2000);
 }
 
 function goToHome() {
