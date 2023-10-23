@@ -499,7 +499,8 @@ let reader = checkFileAPI();
                 if ((!grid.questions || !grid.mots) && !grid.finale) {
                     alert("Impossible de lire le contenu de cette grille.");
                 } else {
-                    console.log(evt.target.result)
+                    let data = JSON.parse(evt.target.result);
+                    console.log(data);
                 }
             } catch (e) {
                 alert("Impossible de lire le contenu de cette grille.");
