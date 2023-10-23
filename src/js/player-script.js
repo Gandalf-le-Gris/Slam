@@ -253,26 +253,18 @@ function openSlam() {
 
 socket.on("question-change", (n) => {
   if (!finale) {
+    let oldQuestion = currentQuestion;
     currentQuestion = n;
     document.getElementById("music-player").pause();
     document.getElementById("image-displayer").style.visibility = "hidden";
     if (slam) {
       document.getElementById("question").innerHTML = "";
-    } else if (
-      !grilleQuestions[currentQuestion] ||
-      grilleQuestions[currentQuestion].image == undefined
-    ) {
-      document.getElementById("question").innerHTML =
-        currentQuestion < grilleQuestions.length
-          ? grilleQuestions[currentQuestion].text
-          : "Plus de questions !";
-      document.getElementById("question").innerHTML = document
-        .getElementById("question")
-        .innerHTML.replace("?&lt;br/&gt;", "<br/>");
-    } else if (grilleQuestions[currentQuestion].image) {
+    } else if (!grilleQuestions[currentQuestion] || grilleQuestions[currentQuestion].image == undefined) {
+      document.getElementById("question").innerHTML = currentQuestion < grilleQuestions.length ? grilleQuestions[currentQuestion].text : "Plus de questions !";
+      document.getElementById("question").innerHTML = document.getElementById("question").innerHTML.replace("?&lt;br/&gt;", "<br/>");
+    } else if (grilleQuestions[currentQuestion].image && oldQuestion !== currentQuestion) {
       document.getElementById("question").innerHTML = "";
-      document.getElementById("image-display").src =
-        grilleQuestions[currentQuestion].image;
+      document.getElementById("image-display").src = grilleQuestions[currentQuestion].image;
       document.getElementById("image-displayer").style.visibility = "visible";
     }
   }
