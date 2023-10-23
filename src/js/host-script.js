@@ -791,7 +791,6 @@ function toggleFinal() {
   document.getElementById("grille").style.display = "none";
   document.getElementById("marguerite").style.display = "none";
   document.getElementById("finale-grids").style.removeProperty("display");
-  document.getElementById("themes").style.removeProperty("display");
   document.getElementById("time").style.removeProperty("display");
   document.getElementById("letters").style.removeProperty("display");
   document.getElementById("theme1").innerHTML = theme1;
