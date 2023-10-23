@@ -500,6 +500,7 @@ let reader = checkFileAPI();
                     alert("Impossible de lire le contenu de cette grille.");
                 } else {
                     let data = JSON.parse(evt.target.result);
+                    console.log(data);
                     if (!data.finale) {
                         toManche();
                         for (let row of domGrille) {
