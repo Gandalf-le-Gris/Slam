@@ -149,7 +149,7 @@ function lockBuzzer() {
     }
     let options = document.getElementsByClassName("options")[0];
     if (options) {
-        options.lastElementChild.innerHTML = "Débloquer";
+        options.children[1].innerHTML = "Débloquer";
     }
 }
 
@@ -165,7 +165,7 @@ function unlockBuzzer() {
     }
     let options = document.getElementsByClassName("options")[0];
     if (options) {
-        options.lastElementChild.innerHTML = "Bloquer";
+        options.children[1].innerHTML = "Bloquer";
     }
 }
 

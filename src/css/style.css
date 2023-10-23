@@ -234,6 +234,10 @@ img.play:hover {
 
     .buzzers > .options > *:last-child {
         border-radius: 100%;
+        background-color: #ffaaaa;
+        border-color: #ff4444;
+        color: red;
+        font-weight: bold;
     }
 
 .buzz-name {
