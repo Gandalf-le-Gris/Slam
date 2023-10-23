@@ -411,6 +411,7 @@ img.play:hover {
     width: fit-content;
     margin: auto;
     max-width: 30vw;
+    text-align: center;
 }
 
 #soundboard {
