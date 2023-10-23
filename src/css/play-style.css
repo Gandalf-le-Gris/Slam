@@ -399,6 +399,12 @@ img.play:hover {
     pointer-events: none;
 }
 
+.theme {
+    width: fit-content;
+    margin: auto;
+    max-width: 30vw;
+}
+
 
 
 

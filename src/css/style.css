@@ -384,7 +384,7 @@ img.play:hover {
   left: 50%;
   transform: translateX(-50%);
   display: grid;
-  grid-auto-flow: column;
+  grid-template-columns: repeat(2, auto);
   grid-column-gap: 10vw;
   width: fit-content;
 }
@@ -405,6 +405,12 @@ img.play:hover {
     font-weight: bold;
     cursor: pointer;
     pointer-events: none;
+}
+
+.theme {
+    width: fit-content;
+    margin: auto;
+    max-width: 30vw;
 }
 
 #soundboard {
