@@ -69,7 +69,7 @@ function fillGridDiv() {
                 });
                 cell.onpaste = () => writeCell(cell);
                 cell.oninput = () => writeCell(cell);
-                cell.onfocus = () => { setTimeout(function(){ cell.selectionStart = cell.selectionEnd = 10000; }, 0); };
+                cell.onfocus = () => cursorToRight(cell);
                 cell.pattern = "[a-zA-Z]?";
                 let div = document.createElement("div");
                 div.appendChild(cell);
@@ -214,6 +214,10 @@ function changeDefinition(def, word) {
     if (i > -1) {
         defs[i].def = def.value;
     }
+}
+
+function cursorToRight(cell) {
+    setTimeout(function(){ cell.selectionStart = cell.selectionEnd = 10000; }, 0);
 }
 
 function compileWords() {
@@ -376,6 +380,7 @@ function updateQuestions(input) {
 
 function adjustLetterCase(input) {
     if (input && input.value != "") {
+        input.value = input.value.substring(input.value.length - 1);
         if (input.value.match("[a-zA-Z]"))
             input.value = input.value.toUpperCase();
         else
