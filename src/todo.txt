@@ -1,4 +1,4 @@
-!! Ajout du buzzer de slam
+!! Ajout du buzzer de slam -> OK
 !! Edition accélérée des grilles -> OK
 Harmonisation de la palette graphique
 Alignement des thèmes de finale

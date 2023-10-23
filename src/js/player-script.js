@@ -597,7 +597,15 @@ socket.on("stop-soundboard", () => {
 
 
 
-
+function copyRoomId(div) {
+  navigator.clipboard.writeText(room.id).then(() => {
+      div.innerHTML = "Copié !";
+      setTimeout(() => div.innerHTML = room.id, 2000);
+  }, () => {
+      div.innerHTML = "Echec...";
+      setTimeout(() => div.innerHTML = room.id, 2000);
+  });
+}
 
 function goToHome() {
   let form = document.createElement("form");
