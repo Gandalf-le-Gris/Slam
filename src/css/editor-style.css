@@ -75,7 +75,7 @@ html, body {
     grid-auto-flow: row;
     row-gap: 3vh;
     padding-top: 10vh;
-    padding-bottom: 25vh;
+    padding-bottom: 15vh;
 }
 
 .grille {

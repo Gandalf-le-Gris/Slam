@@ -161,7 +161,7 @@ button:hover {
     border-radius: 1vw;
     line-height: 8vh;
     transition: transform .2s;
-    color: #ff4444;
+    color: red;
 }
 
 img.play {
