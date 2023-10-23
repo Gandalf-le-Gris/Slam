@@ -201,7 +201,7 @@ img.play:hover {
 .buzzers {
     position: absolute;
     top: 15vh;
-    right: 5vw;
+    right: 3vw;
     display: grid;
     grid-template-rows: 8vh 10vh repeat(5, 5vh);
     row-gap: 2vh;
