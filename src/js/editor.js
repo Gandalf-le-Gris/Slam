@@ -69,6 +69,7 @@ function fillGridDiv() {
                 });
                 cell.onpaste = () => writeCell(cell);
                 cell.oninput = () => writeCell(cell);
+                cell.onfocus = () => { setTimeout(function(){ cell.selectionStart = cell.selectionEnd = 10000; }, 0); };
                 cell.pattern = "[a-zA-Z]?";
                 let div = document.createElement("div");
                 div.appendChild(cell);
