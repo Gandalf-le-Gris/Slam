@@ -32,8 +32,8 @@ html, body {
         content: '';
         background-color: rgb(76 5 255);
         background-image: url('/res/inconnu.png');
-        background-size: 60%;
-        background-position: 20%;
+        background-size: 40%;
+        background-position: center;
         border-radius: 2vw;
     }
 
