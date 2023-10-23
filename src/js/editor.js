@@ -510,16 +510,34 @@ let reader = checkFileAPI();
                                 cell.value = '';
                             }
                         }
+                        defs = [];
                         for (let word of data.mots) {
+                            defs.push({word: word.word, def: word.def});
                             let i = 0;
                             for (let l of word.word) {
                                 let cell = domGrille[word.y + 1 + word.vert * i][word.x + 1 + (!word.vert) * i];
-                                cell.value = l;
+                                cell.value = l.toUpperCase();
                                 cell.classList.add("letter");
                                 i++;
                             }
                         }
                         updateWords();
+
+                        let questions = document.getElementById("questions");
+                        questions.innerHTML = "";
+                        for (let q of data.questions) {
+                            addQuestion();
+                            let fields = questions.lastElementChild.children;
+                            fields[0].value = q.letter.toUpperCase();
+                            fields[1].value = q.text;
+                            if (q.image) {
+                                fields[2].value = "Image";
+                                fields[3].value = q.image;
+                            } else if (q.audio) {
+                                fields[2].value = "Audio";
+                                fields[3].value = q.audio;
+                            }
+                        }
                     }
                 }
             } catch (e) {
