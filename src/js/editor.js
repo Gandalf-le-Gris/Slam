@@ -69,7 +69,6 @@ function fillGridDiv() {
                 });
                 cell.onpaste = () => writeCell(cell);
                 cell.oninput = () => writeCell(cell);
-                cell.maxLength = "1";
                 cell.pattern = "[a-zA-Z]?";
                 let div = document.createElement("div");
                 div.appendChild(cell);
@@ -103,11 +102,13 @@ function getNodeIndex(elm) {
 
 function writeCell(cell) {
     if (cell.value != "") {
+        cell.value = cell.value.substring(cell.value.length - 1);
         if (cell.value.match("[a-zA-Z]")) {
             cell.value = cell.value.toUpperCase();
             cell.classList.add("letter");
         } else {
             cell.value = "";
+            cell.classList.remove("letter");
         }
     } else
         cell.classList.remove("letter");

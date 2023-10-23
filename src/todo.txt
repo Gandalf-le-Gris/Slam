@@ -1,0 +1,8 @@
+Ajout du buzzer de slam
+Edition accélérée des grilles
+Harmonisation de la palette graphique
+Alignement des thèmes de finale
+Occultation des thèmes de finale
+Indicateur du nombre de lettres
+Copier-coller du lien d'invitation
+Mode streamer
