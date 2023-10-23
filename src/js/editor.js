@@ -38,9 +38,8 @@ function fillGridDiv() {
                     let col = pos.col;
                     let tRow = row;
                     let tCol = col;
-                    let nRowL = nRow + c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2");
-                    let nColL = nCol + c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2");
-                    console.log(nRow + ' ' + nCol)
+                    let nRowL = nRow + (c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2"));
+                    let nColL = nCol + (c.parentNode.parentNode.id.includes("1") || c.parentNode.parentNode.id.includes("2"));
                     console.log('i:' + row + '/' + nRowL + ' j:' + col + '/' + nColL);
                     switch (event.key) {
                         case "ArrowUp":
