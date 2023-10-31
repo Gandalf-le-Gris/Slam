@@ -269,8 +269,8 @@ function compileWords() {
 
 function compileFinalWords(dom) {
     let w = [];
-    for (let j = 0; j < dom[0].length - 1; j++) {
-        for (let i = 0; i < dom.length - 1; i++) {
+    for (let j = 0; j < dom[0].length; j++) {
+        for (let i = 0; i < dom.length; i++) {
             let c = dom[i][j];
 
             if (!c.classList.contains("letter")) {
