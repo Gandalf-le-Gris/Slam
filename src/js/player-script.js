@@ -10,13 +10,16 @@ let player = {
 };
 
 var id = socket.id;
+let isSpectator = false;
 
 function enterGame(event) {
   event.preventDefault();
   player.username = document.getElementById("nick").value;
   document.body.removeChild(document.getElementById("filter"));
-  if (player.username == "")
+  if (player.username == "") {
     document.getElementsByClassName("buzzer")[0].style.visibility = "hidden";
+    isSpectator = true;
+  }
   socket.emit("add-player", player);
   socket.emit("request-grid");
 }
@@ -37,6 +40,12 @@ socket.on("get-grid", (r) => {
     document.getElementById("grille1").innerHTML = r.dom1;
     document.getElementById("grille2").innerHTML = r.dom2;
     finale = true;
+    if (isSpectator) {
+      document.getElementById("grille1").classList.remove("cachee");
+      document.getElementById("grille2").classList.remove("cachee");
+      document.getElementById("theme1").innerHTML = theme1;
+      document.getElementById("theme2").innerHTML = theme2;
+    }
   }
 });
 
