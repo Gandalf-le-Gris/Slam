@@ -280,7 +280,7 @@ function compileFinalWords(dom) {
                 if (n > 1) {
                     let word = "";
                     n = 0;
-                    while (i + n + 1 <= nRow && dom[i + n + 1][j].classList.contains("letter")) {
+                    while (i + n <= nRow && dom[i + n + 1][j].classList.contains("letter")) {
                         word += dom[i + n + 1][j].value;
                         n++;
                     }
@@ -301,7 +301,7 @@ function compileFinalWords(dom) {
                 if (n > 1) {
                     let word = "";
                     n = 0;
-                    while (j + n + 1 <= nCol && dom[i][j + n + 1].classList.contains("letter")) {
+                    while (j + n <= nCol && dom[i][j + n + 1].classList.contains("letter")) {
                         word += dom[i][j + n + 1].value;
                         n++;
                     }
